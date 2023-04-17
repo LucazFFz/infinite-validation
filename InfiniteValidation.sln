@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{78F8E444-C866-40F3-BEBE-DCE3815C5ED3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfiniteValidation", "src\InfiniteValidation\InfiniteValidation.csproj", "{8970D30B-956F-4378-ACCE-C3D4833B94A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfiniteValidation.Example", "src\InfiniteValidation.Example\InfiniteValidation.Example.csproj", "{FA5E2D41-4EE3-4D98-AE59-3B062CEAF5A9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8970D30B-956F-4378-ACCE-C3D4833B94A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8970D30B-956F-4378-ACCE-C3D4833B94A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8970D30B-956F-4378-ACCE-C3D4833B94A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8970D30B-956F-4378-ACCE-C3D4833B94A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA5E2D41-4EE3-4D98-AE59-3B062CEAF5A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA5E2D41-4EE3-4D98-AE59-3B062CEAF5A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA5E2D41-4EE3-4D98-AE59-3B062CEAF5A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA5E2D41-4EE3-4D98-AE59-3B062CEAF5A9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8970D30B-956F-4378-ACCE-C3D4833B94A0} = {78F8E444-C866-40F3-BEBE-DCE3815C5ED3}
+		{FA5E2D41-4EE3-4D98-AE59-3B062CEAF5A9} = {78F8E444-C866-40F3-BEBE-DCE3815C5ED3}
+	EndGlobalSection
+EndGlobal
