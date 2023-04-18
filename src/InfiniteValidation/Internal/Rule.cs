@@ -11,7 +11,7 @@ internal class Rule<T, TProperty> : IRule<T, TProperty>
 
     public List<ISpecification<T, TProperty>> Specifications { get; set; } = new();
     
-    public Rule(Expression<Func<T, TProperty>> expression, Models.CascadeMode cascadeMode)
+    public Rule(Expression<Func<T, TProperty>> expression, CascadeMode cascadeMode)
     { 
         CascadeMode = cascadeMode;
         _expression = expression;
@@ -22,7 +22,8 @@ internal class Rule<T, TProperty> : IRule<T, TProperty>
         var failures = new List<ValidationFailure>();
         var value = _expression.Compile()(context.InstanceToValidate);
 
-        foreach (var specification in Specifications.Where(specification => !specification.IsSatisfiedBy(context, value)))
+        foreach (var specification in Specifications
+            .Where(specification => !specification.IsSatisfiedBy(context, value)))
         {
             failures.Add(specification.GetValidationFailure(value));
             if (CascadeMode == CascadeMode.Stop) return failures;
