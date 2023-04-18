@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using System.Reflection.Emit;
 using InfiniteValidation.Exceptions;
 using InfiniteValidation.Internal;
 using InfiniteValidation.Models;
@@ -11,7 +10,7 @@ public abstract class Validator<T> : IValidator<T>
 {
     private readonly List<IRule<T, dynamic>> _rules = new();
 
-    protected ValidationOptions ValidationOptions { get; set; } = new();
+    protected ValidationOptions ValidationOptions { get; private set; } = new();
 
     public ValidationResult Validate(T instance)
         => Validate(new ValidationContext<T>(instance), new ValidationOptions());
@@ -19,6 +18,7 @@ public abstract class Validator<T> : IValidator<T>
     public ValidationResult Validate(T instance, ValidationOptions options)
         => Validate(new ValidationContext<T>(instance), options);
     
+    public List<IRule<T, dynamic>> GetRules() => _rules;
     
     protected IRuleSettingsBuilder<T, dynamic> AddRule(Expression<Func<T, dynamic>> expression)
     {
@@ -28,6 +28,8 @@ public abstract class Validator<T> : IValidator<T>
         return builder;
     }
     
+    protected void Include(IValidator<T> validator) =>  _rules.AddRange(validator.GetRules());
+
     private ValidationResult Validate(ValidationContext<T> context, ValidationOptions options)
     {
         ValidationOptions = options;

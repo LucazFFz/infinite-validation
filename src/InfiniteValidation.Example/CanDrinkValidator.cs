@@ -12,7 +12,8 @@ public class CanDrinkValidator : Validator<Person>
     public CanDrinkValidator()
     {
         ValidationOptions.RuleLevelDefaultCascadeMode = CascadeMode.Continue;
-    
-        AddRule(x => x.Age).CascadeMode(CascadeMode.Stop).NotNull().Must(x => x >= 18);
+
+        AddRule(x => x.Age).CascadeMode(CascadeMode.Stop).NotNull().WithMessage(
+            new PredicateSpecification<Person, dynamic>(x => x >= 18), "You are not old enough to drink");
     }
 }
