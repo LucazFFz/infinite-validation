@@ -20,9 +20,6 @@ public static class DefaultDecoratorExtensions
     
     public static IRuleBuilder<T, TProperty> Not<T, TProperty>(this IRuleBuilder<T, TProperty> builder, ISpecification<T, TProperty> specification)
         => builder.Must(new NotDecorator<T, TProperty>(specification));
-    
-    public static IRuleBuilder<T, TProperty> Or<T, TProperty>(this IRuleBuilder<T, TProperty> builder, ISpecification<T, TProperty> leftSpecification, ISpecification<T, TProperty> rightSpecification)
-        => builder.Must(new OrDecorator<T, TProperty>(leftSpecification, rightSpecification));
 
     public static IRuleBuilder<T, TProperty> WithMessage<T, TProperty>(this IRuleBuilder<T, TProperty> builder, ISpecification<T, TProperty> specification, string message)
         => builder.Must(new MessageDecorator<T,TProperty>(specification, message));
