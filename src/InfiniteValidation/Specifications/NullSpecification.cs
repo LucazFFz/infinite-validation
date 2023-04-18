@@ -6,7 +6,7 @@ public class NullSpecification<T, TProperty> : Specification<T, TProperty>
 { 
     public override bool IsSatisfiedBy(ValidationContext<T> context, TProperty value) => value is null;
     
-    public override string GetSpecificationName() => "Null";
+    public override string GetSpecificationName() => "NullSpecification";
     
-    public override string GetErrorMessage() => "this is a test message";
+    public override string GetErrorMessage() => "Value is not null";
 }

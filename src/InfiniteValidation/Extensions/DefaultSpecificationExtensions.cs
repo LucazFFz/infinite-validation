@@ -18,12 +18,9 @@ public static class DefaultSpecificationExtensions
     public static IRuleBuilder<T, TProperty> Equal<T, TProperty>(this IRuleBuilder<T, TProperty> builder, TProperty value)
         => builder.Must(new EqualSpecification<T, TProperty>(value));
 
-    public static IRuleBuilder<T,string> EmailAddress<T>(this IRuleBuilder<T, string> builder)
-        => builder.Must(new EmailSpecification<T>());
-
     public static IRuleBuilder<T, string> Match<T>(this IRuleBuilder<T, string> builder, string regex)
-        => builder.Must(new RegexSpecification<T>(regex));
+        => builder.Must(new RegularExpressionSpecification<T>(regex));
     
     public static IRuleBuilder<T, string> Match<T>(this IRuleBuilder<T, string> builder, Regex regex)
-        => builder.Must(new RegexSpecification<T>(regex));
+        => builder.Must(new RegularExpressionSpecification<T>(regex));
 }

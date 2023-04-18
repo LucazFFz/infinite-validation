@@ -1,4 +1,5 @@
-﻿using InfiniteValidation.Models;
+﻿using InfiniteValidation.Extensions;
+using InfiniteValidation.Models;
 
 namespace InfiniteValidation.Specifications;
 
@@ -12,9 +13,12 @@ public class PredicateSpecification<T, TProperty> : Specification<T, TProperty>
     }
 
     public override bool IsSatisfiedBy(ValidationContext<T> context, TProperty value)
-        => value is not null && _predicate.Invoke(value);
+    {
+        value.Guard(GetSpecificationName());
+        return _predicate.Invoke(value);
+    }
+
+    public override string GetSpecificationName() => "PredicateSpecification";
     
-    public override string GetSpecificationName() => "Predicate";
-    
-    public override string GetErrorMessage() => "this is a test message";
+    public override string GetErrorMessage() => $"Value does not pass predicate";
 }
