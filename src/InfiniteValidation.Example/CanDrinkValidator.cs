@@ -6,7 +6,7 @@ using InfiniteValidation.Specifications;
 
 namespace ValidationLibrary.Console;
 
-public class CanDrinkValidator : AbstractValidator<Person>
+public class CanDrinkValidator : Validator<Person>
 {
     public CanDrinkValidator()
     {

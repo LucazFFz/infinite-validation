@@ -2,7 +2,7 @@
 
 namespace InfiniteValidation.Decorators;
 
-public class UnlessDecorator<T, TProperty> : AbstractDecorator<T, TProperty>
+public class UnlessDecorator<T, TProperty> : Decorator<T, TProperty>
 {
     private readonly ISpecification<T, TProperty> _condition;
 

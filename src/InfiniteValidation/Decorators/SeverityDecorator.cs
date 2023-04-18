@@ -2,7 +2,7 @@
 
 namespace InfiniteValidation.Decorators;
 
-public class SeverityDecorator<T, TProperty> : AbstractDecorator<T, TProperty>
+public class SeverityDecorator<T, TProperty> : Decorator<T, TProperty>
 {
     private readonly Severity _severity;
     

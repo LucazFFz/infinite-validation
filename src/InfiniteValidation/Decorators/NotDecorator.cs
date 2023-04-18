@@ -2,7 +2,7 @@
 
 namespace InfiniteValidation.Decorators;
 
-public class NotDecorator<T, TProperty> : AbstractDecorator<T, TProperty>
+public class NotDecorator<T, TProperty> : Decorator<T, TProperty>
 {
     public NotDecorator(ISpecification<T, TProperty> specification) : base(specification) {}
     

@@ -2,7 +2,7 @@
 
 namespace InfiniteValidation;
 
-public abstract class AbstractSpecification<T, TProperty> : ISpecification<T, TProperty>
+public abstract class Specification<T, TProperty> : ISpecification<T, TProperty>
 {
     public abstract bool IsSatisfiedBy(ValidationContext<T> context, TProperty value);
 

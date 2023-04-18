@@ -2,7 +2,7 @@
 
 namespace InfiniteValidation.Decorators;
 
-public class WhenDecorator<T, TProperty> : AbstractDecorator<T, TProperty>
+public class WhenDecorator<T, TProperty> : Decorator<T, TProperty>
 {
     private readonly ISpecification<T, TProperty> _condition;
 

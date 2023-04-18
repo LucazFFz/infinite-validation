@@ -2,7 +2,7 @@
 
 namespace InfiniteValidation.Specifications;
 
-public class EqualSpecification<T, TProperty> : AbstractSpecification<T, TProperty>
+public class EqualSpecification<T, TProperty> : Specification<T, TProperty>
 { 
     private readonly TProperty _comparisonValue;
 

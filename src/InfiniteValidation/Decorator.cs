@@ -2,11 +2,11 @@
 
 namespace InfiniteValidation;
 
-public abstract class AbstractDecorator<T, TProperty> : ISpecification<T, TProperty>
+public abstract class Decorator<T, TProperty> : ISpecification<T, TProperty>
 {
     protected ISpecification<T, TProperty> Specification { get; }
     
-    protected AbstractDecorator(ISpecification<T, TProperty> specification)
+    protected Decorator(ISpecification<T, TProperty> specification)
     {
         Specification = specification;
     }
@@ -20,5 +20,16 @@ public abstract class AbstractDecorator<T, TProperty> : ISpecification<T, TPrope
 
     public virtual Severity GetSeverity() => Specification.GetSeverity();
 
-    public ValidationFailure GetValidationFailure(TProperty value) => Specification.GetValidationFailure(value);
+    public ValidationFailure GetValidationFailure(TProperty value)
+    {
+        if (value is null) throw new ArgumentNullException(GetSpecificationName());
+
+        return new ValidationFailure()
+        {
+            FailureMessage = GetErrorMessage(),
+            SpecificationName = GetSpecificationName(),
+            Severity = GetSeverity(),
+            AttemptedValue = value
+        };
+    }
 }

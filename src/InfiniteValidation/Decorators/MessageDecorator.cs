@@ -1,6 +1,6 @@
 ﻿namespace InfiniteValidation.Decorators;
 
-public class MessageDecorator<T, TProperty> : AbstractDecorator<T, TProperty>
+public class MessageDecorator<T, TProperty> : Decorator<T, TProperty>
 {
     private readonly string _message;
 

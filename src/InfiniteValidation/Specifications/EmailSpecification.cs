@@ -3,7 +3,7 @@ using InfiniteValidation.Models;
 
 namespace InfiniteValidation.Specifications;
 
-public class EmailSpecification<T> : AbstractSpecification<T, string>
+public class EmailSpecification<T> : Specification<T, string>
 {
     private readonly Regex _regex 
         = new Regex("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$");

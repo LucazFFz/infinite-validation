@@ -2,7 +2,7 @@
 
 namespace InfiniteValidation.Specifications;
 
-public class PredicateSpecification<T, TProperty> : AbstractSpecification<T, TProperty>
+public class PredicateSpecification<T, TProperty> : Specification<T, TProperty>
 {
     private readonly Func<TProperty, bool> _predicate;
 

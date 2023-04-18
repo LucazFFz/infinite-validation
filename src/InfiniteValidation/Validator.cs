@@ -5,7 +5,7 @@ using ValidationResult = InfiniteValidation.Models.ValidationResult;
 
 namespace InfiniteValidation;
 
-public abstract class AbstractValidator<T> : IValidator<T>
+public abstract class Validator<T> : IValidator<T>
 {
     private readonly List<IRule<T, dynamic>> _rules = new();
     
