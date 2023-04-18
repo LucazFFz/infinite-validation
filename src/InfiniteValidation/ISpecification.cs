@@ -11,6 +11,4 @@ public interface ISpecification<T, in TProperty>
     public string GetErrorMessage();
 
     public Severity GetSeverity();
-
-    public ValidationFailure GetValidationFailure(TProperty value);
 }

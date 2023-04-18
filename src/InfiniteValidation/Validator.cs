@@ -33,9 +33,7 @@ public abstract class Validator<T> : IValidator<T>
     private ValidationResult Validate(ValidationContext<T> context, ValidationOptions options)
     {
         ValidationOptions = options;
-        
         var result = new ValidationResult(options);
-        
         _rules.ForEach(rule => result.Errors.AddRange(rule.IsValid(context)));
 
         if (options.ThrowExceptionOnInvalid && !result.IsValid)
@@ -44,6 +42,6 @@ public abstract class Validator<T> : IValidator<T>
         return result;
     }
     
-    private void RaiseException(ValidationResult result)
+    private static void RaiseException(ValidationResult result)
         => throw new ValidationException(result.Errors);
 }

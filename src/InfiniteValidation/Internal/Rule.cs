@@ -5,7 +5,7 @@ namespace InfiniteValidation.Internal;
 
 internal class Rule<T, TProperty> : IRule<T, TProperty>
 {
-    private readonly Expression<Func<T, TProperty>> _expression;
+    public Expression<Func<T, TProperty>> Expression { get; }
     
     public CascadeMode CascadeMode { get; set; }
 
@@ -14,18 +14,18 @@ internal class Rule<T, TProperty> : IRule<T, TProperty>
     public Rule(Expression<Func<T, TProperty>> expression, CascadeMode cascadeMode)
     { 
         CascadeMode = cascadeMode;
-        _expression = expression;
+        Expression = expression;
     }
     
     public IEnumerable<ValidationFailure> IsValid(ValidationContext<T> context)
     {
         var failures = new List<ValidationFailure>();
-        var value = _expression.Compile()(context.InstanceToValidate);
+        var value = Expression.Compile()(context.InstanceToValidate);
 
         foreach (var specification in Specifications
             .Where(specification => !specification.IsSatisfiedBy(context, value)))
         {
-            failures.Add(specification.GetValidationFailure(value));
+            failures.Add(ValidationFailureFactory.Create(specification, value));
             if (CascadeMode == CascadeMode.Stop) return failures;
         }
 
