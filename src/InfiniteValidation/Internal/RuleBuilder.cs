@@ -1,6 +1,8 @@
-﻿namespace InfiniteValidation.Internal;
+﻿using InfiniteValidation.Models;
 
-internal class RuleBuilder<T, TProperty> : IRuleBuilder<T, TProperty>
+namespace InfiniteValidation.Internal;
+
+internal class RuleBuilder<T, TProperty> : IRuleSettingsBuilder<T, TProperty>
 {
     private readonly IRule<T, TProperty> _rule;
 
@@ -8,10 +10,16 @@ internal class RuleBuilder<T, TProperty> : IRuleBuilder<T, TProperty>
     {
         _rule = rule;
     }
+
+    public IRuleSettingsBuilder<T, TProperty> CascadeMode(CascadeMode mode)
+    {
+        _rule.CascadeMode = mode;
+        return this;
+    }
     
     public IRuleBuilder<T, TProperty> Must(ISpecification<T, TProperty> specification)
     {
-        _rule.AddSpecification(specification);
+        _rule.Specifications.Add(specification);
         return this;
     }
 

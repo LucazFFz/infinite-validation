@@ -1,4 +1,5 @@
-﻿using InfiniteValidation;
+﻿using System.Data;
+using InfiniteValidation;
 using InfiniteValidation.Decorators;
 using InfiniteValidation.Extensions;
 using InfiniteValidation.Models;
@@ -10,6 +11,8 @@ public class CanDrinkValidator : Validator<Person>
 {
     public CanDrinkValidator()
     {
-        AddRule(x => x.Age).Must(x => x >= 18);
+        ValidationOptions.RuleLevelDefaultCascadeMode = CascadeMode.Continue;
+    
+        AddRule(x => x.Age).CascadeMode(CascadeMode.Stop).NotNull().Must(x => x >= 18);
     }
 }
