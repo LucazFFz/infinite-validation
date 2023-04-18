@@ -7,8 +7,8 @@ public class ValidationResult
     public List<ValidationFailure> Errors { get; } = new();
 
     public bool IsValid => Options.OnlyInvalidOnErrorSeverity
-        ? Errors.Any(x => x.Severity == Severity.Error)
-        : Errors.Count != 0;
+        ? Errors.All(x => x.Severity != Severity.Error)
+        : Errors.Count == 0;
 
     public ValidationResult(ValidationOptions options)
     {
