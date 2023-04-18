@@ -15,8 +15,8 @@ public static class DefaultDecoratorExtensions
     public static IRuleBuilder<T, TProperty> Unless<T, TProperty>(this IRuleBuilder<T, TProperty> builder, ISpecification<T, TProperty> condition, ISpecification<T, TProperty> specification)
         => builder.Must(new UnlessDecorator<T, TProperty>(condition, specification));
     
-    public static IRuleBuilder<T, TProperty> Unless<T, TProperty>(this IRuleBuilder<T, TProperty> builder, Func<TProperty, bool> predicate, ISpecification<T, TProperty> specification)
-        => builder.Must(new UnlessDecorator<T, TProperty>(new PredicateSpecification<T, TProperty>(predicate), specification));
+    public static IRuleBuilder<T, TProperty> Unless<T, TProperty>(this IRuleBuilder<T, TProperty> builder, Func<TProperty, bool> condition, ISpecification<T, TProperty> specification)
+        => builder.Must(new UnlessDecorator<T, TProperty>(new PredicateSpecification<T, TProperty>(condition), specification));
     
     public static IRuleBuilder<T, TProperty> Not<T, TProperty>(this IRuleBuilder<T, TProperty> builder, ISpecification<T, TProperty> specification)
         => builder.Must(new NotDecorator<T, TProperty>(specification));

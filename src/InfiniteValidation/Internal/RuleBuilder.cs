@@ -1,4 +1,4 @@
-﻿namespace InfiniteValidation;
+﻿namespace InfiniteValidation.Internal;
 
 internal class RuleBuilder<T, TProperty> : IRuleBuilder<T, TProperty>
 {
@@ -15,5 +15,5 @@ internal class RuleBuilder<T, TProperty> : IRuleBuilder<T, TProperty>
         return this;
     }
 
-    public IRule<T, TProperty> Build() => _rule;
+    internal IRule<T, TProperty> Build() => _rule;
 }

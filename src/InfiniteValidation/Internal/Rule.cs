@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using InfiniteValidation.Models;
 
-namespace InfiniteValidation;
+namespace InfiniteValidation.Internal;
 
 internal class Rule<T, TProperty> : IRule<T, TProperty>
 {

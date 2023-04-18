@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using InfiniteValidation.Exceptions;
+using InfiniteValidation.Internal;
 using InfiniteValidation.Models;
 using ValidationResult = InfiniteValidation.Models.ValidationResult;
 
