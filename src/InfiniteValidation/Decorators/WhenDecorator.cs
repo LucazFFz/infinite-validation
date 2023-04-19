@@ -1,6 +1,4 @@
-﻿using InfiniteValidation.Models;
-
-namespace InfiniteValidation.Decorators;
+﻿namespace InfiniteValidation.Decorators;
 
 public class WhenDecorator<T, TProperty> : Decorator<T, TProperty>
 {

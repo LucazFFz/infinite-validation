@@ -5,11 +5,10 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>InfiniteValidation.Console</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InfiniteValidation\InfiniteValidation.csproj" />
+    <ProjectReference Include="..\..\src\InfiniteValidation\InfiniteValidation.csproj" />
   </ItemGroup>
 
 </Project>

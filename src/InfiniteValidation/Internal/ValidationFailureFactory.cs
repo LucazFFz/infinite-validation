@@ -1,5 +1,4 @@
-﻿using InfiniteValidation.Extensions;
-using InfiniteValidation.Models;
+﻿using InfiniteValidation.Results;
 
 namespace InfiniteValidation.Internal;
 

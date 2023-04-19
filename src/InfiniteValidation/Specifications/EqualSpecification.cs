@@ -1,7 +1,4 @@
-﻿using InfiniteValidation.Extensions;
-using InfiniteValidation.Models;
-
-namespace InfiniteValidation.Specifications;
+﻿namespace InfiniteValidation.Specifications;
 
 public class EqualSpecification<T, TProperty> : Specification<T, TProperty>
 { 

@@ -1,4 +1,4 @@
-﻿namespace InfiniteValidation.Models;
+﻿namespace InfiniteValidation.Results;
 
 public class ValidationFailure
 {
@@ -11,9 +11,3 @@ public class ValidationFailure
     public Severity Severity { get; internal set; } = Severity.Error;
 }
 
-public enum Severity
-{
-    Info,
-    Error,
-    Warning
-}

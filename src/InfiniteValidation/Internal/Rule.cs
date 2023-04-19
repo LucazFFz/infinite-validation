@@ -1,5 +1,5 @@
 ﻿using System.Linq.Expressions;
-using InfiniteValidation.Models;
+using InfiniteValidation.Results;
 
 namespace InfiniteValidation.Internal;
 

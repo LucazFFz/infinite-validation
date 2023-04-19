@@ -2,7 +2,7 @@
 using InfiniteValidation.Decorators;
 using InfiniteValidation.Specifications;
 
-namespace InfiniteValidation.Extensions;
+namespace InfiniteValidation;
 
 public static class DefaultSpecificationExtensions
 {

@@ -1,4 +1,4 @@
-﻿namespace InfiniteValidation.Extensions;
+﻿namespace InfiniteValidation.Internal;
 
 internal static class InternalExtensions
 {

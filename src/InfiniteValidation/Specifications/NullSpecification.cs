@@ -1,6 +1,4 @@
-﻿using InfiniteValidation.Models;
-
-namespace InfiniteValidation.Specifications;
+﻿namespace InfiniteValidation.Specifications;
 
 public class NullSpecification<T, TProperty> : Specification<T, TProperty>
 { 

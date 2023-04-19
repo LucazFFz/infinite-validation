@@ -1,6 +1,4 @@
-﻿using InfiniteValidation.Models;
-
-namespace InfiniteValidation;
+﻿namespace InfiniteValidation;
 
 public interface ISpecification<T, in TProperty>
 {

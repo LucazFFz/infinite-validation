@@ -1,6 +1,5 @@
 ﻿using InfiniteValidation;
-using InfiniteValidation.Models;
-using ValidationLibrary.Console;
+using InfiniteValidation.Sample;
 
 var validator = new CanDrinkValidator();
 
@@ -8,7 +7,7 @@ var person = new Person("Lucaz", null, 17);
 
 var options = new ValidationOptions
 {
-    ThrowExceptionOnInvalid = true
+    ThrowExceptionOnInvalid = false
 };
 
 var result = validator.Validate(person, options);

@@ -1,4 +1,4 @@
-﻿namespace InfiniteValidation.Models;
+﻿namespace InfiniteValidation;
 
 public class ValidationContext<T>
 {

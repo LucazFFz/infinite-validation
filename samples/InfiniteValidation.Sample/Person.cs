@@ -1,4 +1,4 @@
-﻿namespace ValidationLibrary.Console;
+﻿namespace InfiniteValidation.Sample;
 
 public class Person
 {

@@ -7,7 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{78F8E444-C86
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfiniteValidation", "src\InfiniteValidation\InfiniteValidation.csproj", "{8970D30B-956F-4378-ACCE-C3D4833B94A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfiniteValidation.Example", "src\InfiniteValidation.Example\InfiniteValidation.Example.csproj", "{FA5E2D41-4EE3-4D98-AE59-3B062CEAF5A9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{C7114690-8F9F-4F6A-A8B6-6BA379B7D18F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfiniteValidation.Sample", "samples\InfiniteValidation.Sample\InfiniteValidation.Sample.csproj", "{A1592ABA-E577-4063-96E3-2927B2612E16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,13 +24,13 @@ Global
 		{8970D30B-956F-4378-ACCE-C3D4833B94A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8970D30B-956F-4378-ACCE-C3D4833B94A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8970D30B-956F-4378-ACCE-C3D4833B94A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FA5E2D41-4EE3-4D98-AE59-3B062CEAF5A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FA5E2D41-4EE3-4D98-AE59-3B062CEAF5A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FA5E2D41-4EE3-4D98-AE59-3B062CEAF5A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FA5E2D41-4EE3-4D98-AE59-3B062CEAF5A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1592ABA-E577-4063-96E3-2927B2612E16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1592ABA-E577-4063-96E3-2927B2612E16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1592ABA-E577-4063-96E3-2927B2612E16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1592ABA-E577-4063-96E3-2927B2612E16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8970D30B-956F-4378-ACCE-C3D4833B94A0} = {78F8E444-C866-40F3-BEBE-DCE3815C5ED3}
-		{FA5E2D41-4EE3-4D98-AE59-3B062CEAF5A9} = {78F8E444-C866-40F3-BEBE-DCE3815C5ED3}
+		{A1592ABA-E577-4063-96E3-2927B2612E16} = {C7114690-8F9F-4F6A-A8B6-6BA379B7D18F}
 	EndGlobalSection
 EndGlobal

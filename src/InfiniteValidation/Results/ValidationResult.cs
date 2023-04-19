@@ -1,4 +1,4 @@
-﻿namespace InfiniteValidation.Models;
+﻿namespace InfiniteValidation.Results;
 
 public class ValidationResult
 {

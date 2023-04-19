@@ -1,4 +1,4 @@
-﻿using InfiniteValidation.Models;
+﻿using InfiniteValidation.Results;
 
 namespace InfiniteValidation;
 
