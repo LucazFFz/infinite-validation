@@ -10,9 +10,9 @@ public abstract class Validator<T> : IValidator<T>
 {
     private readonly List<IRule<T, dynamic>> _rules = new();
 
-    protected CascadeMode RuleLevelDefaultCascadeMode { get; set; } = CascadeMode.Continue;
+    protected CascadeMode RuleLevelCascadeMode { get; set; } = CascadeMode.Continue;
     
-    protected CascadeMode ClassLevelDefaultCascadeMode { get; set; } = CascadeMode.Continue;
+    protected CascadeMode ClassLevelCascadeMode { get; set; } = CascadeMode.Continue;
     
     public ValidationResult Validate(T instance)
         => Validate(new ValidationContext<T>(instance), new ValidationOptions());
@@ -24,7 +24,7 @@ public abstract class Validator<T> : IValidator<T>
     
     protected IRuleSettingsBuilder<T, dynamic> AddRule(Expression<Func<T, dynamic>> expression)
     {
-        var rule = new Rule<T, dynamic>(expression, RuleLevelDefaultCascadeMode);
+        var rule = new Rule<T, dynamic>(expression, RuleLevelCascadeMode);
         var builder = new RuleBuilder<T, dynamic>(rule);
         _rules.Add(rule);
         return builder;
@@ -39,7 +39,7 @@ public abstract class Validator<T> : IValidator<T>
         foreach (var rule in _rules)
         {
             result.Errors.AddRange(rule.IsValid(context));
-            if (result.Errors.Any() && ClassLevelDefaultCascadeMode == CascadeMode.Stop) break;
+            if (result.Errors.Any() && ClassLevelCascadeMode == CascadeMode.Stop) break;
         }
         
         if (options.ThrowExceptionOnInvalid && !result.IsValid) RaiseException(result);
