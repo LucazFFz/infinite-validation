@@ -23,7 +23,7 @@ public abstract class Validator<T> : IValidator<T>
     
     protected IRuleSettingsBuilder<T, TProperty> AddRule<TProperty>(Expression<Func<T, TProperty>> expression)
     {
-        var rule = new PropertyRule<T, TProperty>(expression, RuleLevelCascadeMode);
+        var rule = new Rule<T, TProperty>(expression, RuleLevelCascadeMode);
         var builder = new RuleBuilder<T, TProperty>(rule);
         _rules.Add(rule);
         return builder;
