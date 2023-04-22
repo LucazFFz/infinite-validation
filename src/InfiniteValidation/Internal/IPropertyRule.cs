@@ -3,7 +3,7 @@ using InfiniteValidation.Results;
 
 namespace InfiniteValidation.Internal;
 
-internal interface IPropertyRule<T, TProperty> : IValidatorRule<T>
+internal interface IPropertyRule<T, TProperty>
 {
     public Expression<Func<T, TProperty>> Expression { get; }
     
@@ -11,5 +11,5 @@ internal interface IPropertyRule<T, TProperty> : IValidatorRule<T>
     
     public List<ISpecification<T, TProperty>> Specifications { get; }
     
-    public new IEnumerable<ValidationFailure> IsValid(ValidationContext<T> context);
+    public IEnumerable<ValidationFailure> IsValid(ValidationContext<T> context);
 }
