@@ -1,15 +1,15 @@
 ﻿using System.Linq.Expressions;
 using InfiniteValidation.Results;
 
-namespace InfiniteValidation;
+namespace InfiniteValidation.Internal;
 
-public interface IRule<T, TProperty>
+internal interface IPropertyRule<T, TProperty> : IValidatorRule<T>
 {
     public Expression<Func<T, TProperty>> Expression { get; }
     
     public CascadeMode CascadeMode { get; set; }
     
     public List<ISpecification<T, TProperty>> Specifications { get; }
-
-    public IEnumerable<ValidationFailure> IsValid(ValidationContext<T> context);
+    
+    public new IEnumerable<ValidationFailure> IsValid(ValidationContext<T> context);
 }

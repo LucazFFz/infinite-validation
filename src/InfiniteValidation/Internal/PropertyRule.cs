@@ -3,7 +3,7 @@ using InfiniteValidation.Results;
 
 namespace InfiniteValidation.Internal;
 
-internal class Rule<T, TProperty> : IRule<T, TProperty>
+internal class PropertyRule<T, TProperty> : IPropertyRule<T, TProperty>
 {
     public Expression<Func<T, TProperty>> Expression { get; }
     
@@ -11,7 +11,7 @@ internal class Rule<T, TProperty> : IRule<T, TProperty>
 
     public List<ISpecification<T, TProperty>> Specifications { get; set; } = new();
     
-    public Rule(Expression<Func<T, TProperty>> expression, CascadeMode cascadeMode)
+    public PropertyRule(Expression<Func<T, TProperty>> expression, CascadeMode cascadeMode)
     { 
         CascadeMode = cascadeMode;
         Expression = expression;
@@ -26,7 +26,7 @@ internal class Rule<T, TProperty> : IRule<T, TProperty>
             .Where(specification => !specification.IsSatisfiedBy(context, value)))
         {
             failures.Add(ValidationFailureFactory.Create(specification, value));
-            if (CascadeMode == CascadeMode.Stop) return failures;
+            if (CascadeMode == CascadeMode.Stop) break;
         }
 
         return failures;

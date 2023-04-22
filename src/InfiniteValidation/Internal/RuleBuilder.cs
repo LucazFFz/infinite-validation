@@ -2,24 +2,24 @@
 
 internal class RuleBuilder<T, TProperty> : IRuleSettingsBuilder<T, TProperty>
 {
-    private readonly IRule<T, TProperty> _rule;
+    private readonly IPropertyRule<T, TProperty> _propertyRule;
 
-    public RuleBuilder(IRule<T, TProperty> rule)
+    public RuleBuilder(IPropertyRule<T, TProperty> propertyRule)
     {
-        _rule = rule;
+        _propertyRule = propertyRule;
     }
 
     public IRuleSettingsBuilder<T, TProperty> CascadeMode(CascadeMode mode)
     {
-        _rule.CascadeMode = mode;
+        _propertyRule.CascadeMode = mode;
         return this;
     }
     
     public IRuleBuilder<T, TProperty> Must(ISpecification<T, TProperty> specification)
     {
-        _rule.Specifications.Add(specification);
+        _propertyRule.Specifications.Add(specification);
         return this;
     }
 
-    internal IRule<T, TProperty> Build() => _rule;
+    internal IPropertyRule<T, TProperty> Build() => _propertyRule;
 }

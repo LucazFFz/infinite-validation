@@ -7,8 +7,8 @@ namespace InfiniteValidation;
 
 public abstract class Validator<T> : IValidator<T>
 {
-    private readonly List<IRule<T, dynamic>> _rules = new();
-
+    private readonly List<IValidatorRule<T>> _rules = new();
+    
     protected CascadeMode RuleLevelCascadeMode { get; set; } = CascadeMode.Continue;
     
     protected CascadeMode ClassLevelCascadeMode { get; set; } = CascadeMode.Continue;
@@ -19,12 +19,12 @@ public abstract class Validator<T> : IValidator<T>
     public ValidationResult Validate(T instance, ValidationOptions options)
         => Validate(new ValidationContext<T>(instance), options);
     
-    public List<IRule<T, dynamic>> GetRules() => _rules;
+    public List<IValidatorRule<T>> GetRules() => _rules;
     
-    protected IRuleSettingsBuilder<T, dynamic> AddRule(Expression<Func<T, dynamic>> expression)
+    protected IRuleSettingsBuilder<T, TProperty> AddRule<TProperty>(Expression<Func<T, TProperty>> expression)
     {
-        var rule = new Rule<T, dynamic>(expression, RuleLevelCascadeMode);
-        var builder = new RuleBuilder<T, dynamic>(rule);
+        var rule = new PropertyRule<T, TProperty>(expression, RuleLevelCascadeMode);
+        var builder = new RuleBuilder<T, TProperty>(rule);
         _rules.Add(rule);
         return builder;
     }
