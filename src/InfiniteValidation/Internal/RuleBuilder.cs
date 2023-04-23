@@ -1,4 +1,6 @@
-﻿namespace InfiniteValidation.Internal;
+﻿using InfiniteValidation.Decorators;
+
+namespace InfiniteValidation.Internal;
 
 internal class RuleBuilder<T, TProperty> : IRuleSettingsBuilder<T, TProperty>
 {
@@ -15,11 +17,20 @@ internal class RuleBuilder<T, TProperty> : IRuleSettingsBuilder<T, TProperty>
         return this;
     }
     
-    public IRuleBuilder<T, TProperty> Must(ISpecification<T, TProperty> specification)
+    public IRuleBuilder<T, TProperty> AddSpecification(ISpecification<T, TProperty> specification)
     {
         _propertyRule.Specifications.Add(specification);
         return this;
     }
+    
+    public IRuleBuilder<T, TProperty> AddDecorator(ISpecification<T, TProperty> decorator)
+    {
+        _propertyRule.Specifications.ReplaceLast(decorator);
+        return this; 
+    }
+
+    public ISpecification<T, TProperty> GetActiveSpecification()
+        => _propertyRule.Specifications.Last();
 
     internal IPropertyRule<T, TProperty> Build() => _propertyRule;
 }

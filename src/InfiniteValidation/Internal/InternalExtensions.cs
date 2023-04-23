@@ -11,4 +11,17 @@ internal static class InternalExtensions
     {
         if (obj == null) throw new ArgumentNullException(parameterName);
     }
+
+    internal static List<T> Replace<T>(this List<T> list, T value, int index)
+    {
+        list[index] = value;
+        return list;
+    }
+    
+    internal static List<T> ReplaceLast<T>(this List<T> list, T value)
+    {
+        var index = list.Count - 1;
+        list[index] = value;
+        return list;
+    }
 }

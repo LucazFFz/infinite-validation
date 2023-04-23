@@ -1,4 +1,4 @@
-﻿using System.Data;
+﻿using InfiniteValidation.Decorators;
 using InfiniteValidation.Specifications;
 
 namespace InfiniteValidation.Sample;
@@ -10,7 +10,6 @@ public class CanDrinkValidator : Validator<Person>
         RuleLevelCascadeMode = CascadeMode.Continue;
         ClassLevelCascadeMode = CascadeMode.Continue;
 
-        AddRule(x => x.Age).CascadeMode(CascadeMode.Stop).NotNull().WithMessage(
-            new PredicateSpecification<Person, int>(x => x >= 18), "You are not old enough to drink");
+        AddRule(x => x.Age).CascadeMode(CascadeMode.Stop).NotNull().Must(x => x >= 18).WithMessage("You are not old enough");
     }
 }
