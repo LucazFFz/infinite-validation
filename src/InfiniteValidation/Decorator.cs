@@ -19,17 +19,4 @@ public abstract class Decorator<T, TProperty> : ISpecification<T, TProperty>
     public virtual string GetErrorMessage() => Specification.GetErrorMessage();
 
     public virtual Severity GetSeverity() => Specification.GetSeverity();
-
-    public ValidationFailure GetValidationFailure(TProperty value)
-    {
-        if (value is null) throw new ArgumentNullException(GetSpecificationName());
-
-        return new ValidationFailure()
-        {
-            FailureMessage = GetErrorMessage(),
-            SpecificationName = GetSpecificationName(),
-            Severity = GetSeverity(),
-            AttemptedValue = value
-        };
-    }
 }
