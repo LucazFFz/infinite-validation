@@ -1,6 +1,4 @@
-﻿using InfiniteValidation.Results;
-
-namespace InfiniteValidation;
+﻿namespace InfiniteValidation;
 
 public abstract class Decorator<T, TProperty> : ISpecification<T, TProperty>
 {

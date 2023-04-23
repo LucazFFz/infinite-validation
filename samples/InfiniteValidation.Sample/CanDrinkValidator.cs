@@ -1,7 +1,4 @@
-﻿using InfiniteValidation.Decorators;
-using InfiniteValidation.Specifications;
-
-namespace InfiniteValidation.Sample;
+﻿namespace InfiniteValidation.Sample;
 
 public class CanDrinkValidator : Validator<Person>
 {

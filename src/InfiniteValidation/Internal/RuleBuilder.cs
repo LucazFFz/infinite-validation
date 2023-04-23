@@ -1,6 +1,4 @@
-﻿using InfiniteValidation.Decorators;
-
-namespace InfiniteValidation.Internal;
+﻿namespace InfiniteValidation.Internal;
 
 internal class RuleBuilder<T, TProperty> : IRuleSettingsBuilder<T, TProperty>
 {
