@@ -12,5 +12,5 @@ public static class ObjectExtensions
         => new NullSpecification<T, T>().IsSatisfiedBy(null!, obj);
 
     public static bool NotNull<T>(this T obj)
-        => new NotDecorator<T, T>(new NullSpecification<T, T>()).IsSatisfiedBy(null!, obj);
+        => !new NullSpecification<T, T>().IsSatisfiedBy(null!, obj);
 }

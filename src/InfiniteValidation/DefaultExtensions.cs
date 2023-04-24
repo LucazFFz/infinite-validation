@@ -12,9 +12,6 @@ public static class DefaultExtensions
     public static IRuleBuilder<T, TProperty> Null<T, TProperty>(this IRuleBuilder<T, TProperty> builder)
         => builder.AddSpecification(new NullSpecification<T, TProperty>());
 
-    public static IRuleBuilder<T, TProperty> NotNull<T, TProperty>(this IRuleBuilder<T, TProperty> builder)
-        => builder.AddSpecification(new NotDecorator<T, TProperty>(new NullSpecification<T, TProperty>()));
-
     public static IRuleBuilder<T, TProperty> Equal<T, TProperty>(this IRuleBuilder<T, TProperty> builder, TProperty value)
         => builder.AddSpecification(new EqualSpecification<T, TProperty>(value));
 

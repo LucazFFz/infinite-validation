@@ -9,11 +9,6 @@ public class SeverityDecorator<T, TProperty> : Decorator<T, TProperty>
         _severity = severity;
     }
 
-    public SeverityDecorator(ISpecification<T, TProperty> specification, Severity severity) : base(specification)
-    {
-        _severity = severity;
-    }
-    
     public override bool IsSatisfiedBy(ValidationContext<T> context, TProperty value)
         => Specification.IsSatisfiedBy(context, value);
 

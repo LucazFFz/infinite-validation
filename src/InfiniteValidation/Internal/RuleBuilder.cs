@@ -25,7 +25,7 @@ internal class RuleBuilder<T, TProperty> : IRuleSettingsBuilder<T, TProperty>
     {
         decorator.Specification = _propertyRule.Specifications.Last();
         _propertyRule.Specifications.ReplaceLast(decorator);
-        return this; 
+        return this;
     }
 
     internal IPropertyRule<T, TProperty> Build() => _propertyRule;
