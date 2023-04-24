@@ -1,6 +1,6 @@
 ﻿namespace InfiniteValidation;
 
-public class ValidationOptions
+public class ValidationSettings
 {
     public bool ThrowExceptionOnInvalid { get; set; } = false;
 

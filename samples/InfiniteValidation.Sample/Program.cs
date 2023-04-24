@@ -5,11 +5,9 @@ var validator = new CanDrinkValidator();
 
 var person = new Person("Lucaz", null, 17);
 
-var options = new ValidationOptions
+var result = validator.Validate(person, settings =>
 {
-    ThrowExceptionOnInvalid = false
-};
-
-var result = validator.Validate(person, options);
+    settings.ThrowExceptionOnInvalid = true;
+});
 
 Console.WriteLine(result.IsValid);

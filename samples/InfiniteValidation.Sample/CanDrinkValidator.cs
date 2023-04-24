@@ -7,8 +7,8 @@ public class CanDrinkValidator : Validator<Person>
 {
     public CanDrinkValidator()
     {
-        RuleLevelCascadeMode = CascadeMode.Continue;
-        ClassLevelCascadeMode = CascadeMode.Continue;
+        Configuration.RuleLevelDefaultCascadeMode = CascadeMode.Continue;
+        Configuration.ClassLevelDefaultCascadeMode = CascadeMode.Continue;
 
         AddRule(x => x.Age).CascadeMode(CascadeMode.Stop).Null().Not().Must(x => x >= 18).WithMessage("You are not old enough");
     }

@@ -8,22 +8,27 @@ namespace InfiniteValidation;
 public abstract class Validator<T> : IValidator<T>
 {
     private readonly List<IValidatorRule<T>> _rules = new();
+
+    protected ValidatorConfiguration Configuration { get; } = new();
     
-    protected CascadeMode RuleLevelCascadeMode { get; set; } = CascadeMode.Continue;
+    public ValidationResult Validate(T instance, ValidationSettings settings) 
+        => Validate(new ValidationContext<T>(instance), settings);
     
-    protected CascadeMode ClassLevelCascadeMode { get; set; } = CascadeMode.Continue;
-    
-    public ValidationResult Validate(T instance)
-        => Validate(new ValidationContext<T>(instance), new ValidationOptions());
-    
-    public ValidationResult Validate(T instance, ValidationOptions options)
-        => Validate(new ValidationContext<T>(instance), options);
-    
+    public ValidationResult Validate(T instance) 
+        => Validate(new ValidationContext<T>(instance), new ValidationSettings());
+
+    public ValidationResult Validate(T instance, Action<ValidationSettings> settings)
+    {
+        var validationSettings = new ValidationSettings();
+        settings.Invoke(validationSettings);
+        return Validate(new ValidationContext<T>(instance), validationSettings);
+    }
+
     public List<IValidatorRule<T>> GetRules() => _rules;
     
     protected IRuleBuilderInitial<T, TProperty> AddRule<TProperty>(Expression<Func<T, TProperty>> expression)
     {
-        var rule = new Rule<T, TProperty>(expression, RuleLevelCascadeMode);
+        var rule = new Rule<T, TProperty>(expression, Configuration.RuleLevelDefaultCascadeMode);
         var builder = new RuleBuilder<T, TProperty>(rule);
         _rules.Add(rule);
         return builder;
@@ -31,17 +36,17 @@ public abstract class Validator<T> : IValidator<T>
     
     protected void Include(IValidator<T> validator) =>  _rules.AddRange(validator.GetRules());
 
-    private ValidationResult Validate(ValidationContext<T> context, ValidationOptions options)
+    private ValidationResult Validate(ValidationContext<T> context, ValidationSettings settings)
     {
-        var result = new ValidationResult(options);
+        var result = new ValidationResult(settings);
         
         foreach (var rule in _rules)
         {
             result.Errors.AddRange(rule.IsValid(context));
-            if (result.Errors.Any() && ClassLevelCascadeMode == CascadeMode.Stop) break;
+            if (result.Errors.Any() && Configuration.ClassLevelDefaultCascadeMode == CascadeMode.Stop) break;
         }
         
-        if (options.ThrowExceptionOnInvalid && !result.IsValid) RaiseException(result);
+        if (settings.ThrowExceptionOnInvalid && !result.IsValid) RaiseException(result);
         return result;
     }
     
