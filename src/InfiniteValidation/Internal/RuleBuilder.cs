@@ -1,6 +1,6 @@
 ﻿namespace InfiniteValidation.Internal;
 
-internal class RuleBuilder<T, TProperty> : IRuleSettingsBuilder<T, TProperty>
+internal class RuleBuilder<T, TProperty> : IRuleBuilderInitial<T, TProperty>, IRuleBuilderSettings<T, TProperty>
 {
     private readonly IPropertyRule<T, TProperty> _propertyRule;
 
@@ -9,19 +9,19 @@ internal class RuleBuilder<T, TProperty> : IRuleSettingsBuilder<T, TProperty>
         _propertyRule = propertyRule;
     }
 
-    public IRuleSettingsBuilder<T, TProperty> CascadeMode(CascadeMode mode)
+    public IRuleBuilderInitial<T, TProperty> CascadeMode(CascadeMode mode)
     {
         _propertyRule.CascadeMode = mode;
         return this;
     }
     
-    public IRuleBuilder<T, TProperty> AddSpecification(ISpecification<T, TProperty> specification)
+    public IRuleBuilderSettings<T, TProperty> AddSpecification(ISpecification<T, TProperty> specification)
     {
         _propertyRule.Specifications.Add(specification);
         return this;
     }
     
-    public IRuleBuilder<T, TProperty> AddDecorator(IDecorator<T, TProperty> decorator)
+    public IRuleBuilderSettings<T, TProperty> AddDecorator(IDecorator<T, TProperty> decorator)
     {
         decorator.Specification = _propertyRule.Specifications.Last();
         _propertyRule.Specifications.ReplaceLast(decorator);
