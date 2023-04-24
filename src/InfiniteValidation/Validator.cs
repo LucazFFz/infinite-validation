@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Collections;
+using System.Linq.Expressions;
 using InfiniteValidation.Exceptions;
 using InfiniteValidation.Internal;
 using ValidationResult = InfiniteValidation.Results.ValidationResult;
@@ -26,10 +27,18 @@ public abstract class Validator<T> : IValidator<T>
 
     public List<IValidatorRule<T>> GetRules() => _rules;
     
-    protected IRuleBuilderInitial<T, TProperty> AddRule<TProperty>(Expression<Func<T, TProperty>> expression)
+    protected IRuleBuilderInitial<T, TProperty> RuleFor<TProperty>(Expression<Func<T, TProperty>> expression)
     {
         var rule = new Rule<T, TProperty>(expression, Configuration.RuleLevelDefaultCascadeMode);
         var builder = new RuleBuilder<T, TProperty>(rule);
+        _rules.Add(rule);
+        return builder;
+    }
+    
+    protected ICollectionRuleBuilderInitial<T, TElement> RuleForEach<TElement>(Expression<Func<T, IEnumerable<TElement>>> expression)
+    {
+        var rule = new CollectionRule<T, IEnumerable<TElement>, TElement>(expression, Configuration.RuleLevelDefaultCascadeMode);
+        var builder = new CollectionRuleBuilder<T, IEnumerable<TElement>, TElement>(rule);
         _rules.Add(rule);
         return builder;
     }
