@@ -1,15 +1,18 @@
 ﻿namespace InfiniteValidation;
 
-public abstract class Decorator<T, TProperty> : ISpecification<T, TProperty>
+public abstract class Decorator<T, TProperty> : IDecorator<T, TProperty>
 {
-    protected ISpecification<T, TProperty> Specification { get; }
-    
+    // TODO: find a workaround so this does not need to have a setter, required by RuleBuilder
+    public ISpecification<T, TProperty> Specification { get; set; } = Specification<T, TProperty>.Default();
+
+    protected Decorator() {}
+
     protected Decorator(ISpecification<T, TProperty> specification)
     {
         Specification = specification;
     }
 
-    public virtual bool IsSatisfiedBy(ValidationContext<T> context, TProperty value)
+    public virtual bool IsSatisfiedBy(ValidationContext<T> context, TProperty value) 
         => Specification.IsSatisfiedBy(context, value);
 
     public virtual string GetSpecificationName() => Specification.GetSpecificationName();

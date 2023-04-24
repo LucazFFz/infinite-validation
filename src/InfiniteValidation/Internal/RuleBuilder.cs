@@ -21,14 +21,12 @@ internal class RuleBuilder<T, TProperty> : IRuleSettingsBuilder<T, TProperty>
         return this;
     }
     
-    public IRuleBuilder<T, TProperty> AddDecorator(ISpecification<T, TProperty> decorator)
+    public IRuleBuilder<T, TProperty> AddDecorator(IDecorator<T, TProperty> decorator)
     {
+        decorator.Specification = _propertyRule.Specifications.Last();
         _propertyRule.Specifications.ReplaceLast(decorator);
         return this; 
     }
-
-    public ISpecification<T, TProperty> GetActiveSpecification()
-        => _propertyRule.Specifications.Last();
 
     internal IPropertyRule<T, TProperty> Build() => _propertyRule;
 }

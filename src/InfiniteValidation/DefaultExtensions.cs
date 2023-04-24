@@ -25,18 +25,18 @@ public static class DefaultExtensions
         => builder.AddSpecification(new RegularExpressionSpecification<T>(regex));
 
     public static IRuleBuilder<T, TProperty> When<T, TProperty>(this IRuleBuilder<T, TProperty> builder, Func<TProperty, bool> predicate)
-        => builder.AddDecorator(new WhenDecorator<T, TProperty>(builder.GetActiveSpecification(), predicate));
+        => builder.AddDecorator(new WhenDecorator<T, TProperty>(predicate));
     
     public static IRuleBuilder<T, TProperty> Unless<T, TProperty>(this IRuleBuilder<T, TProperty> builder, Func<TProperty, bool> predicate)
-        => builder.AddDecorator(new UnlessDecorator<T, TProperty>(builder.GetActiveSpecification(), predicate));
+        => builder.AddDecorator(new UnlessDecorator<T, TProperty>(predicate));
     
     public static IRuleBuilder<T, TProperty> Not<T, TProperty>(this IRuleBuilder<T, TProperty> builder)
-        => builder.AddDecorator(new NotDecorator<T, TProperty>(builder.GetActiveSpecification()));
+        => builder.AddDecorator(new NotDecorator<T, TProperty>());
     
     public static IRuleBuilder<T, TProperty> WithMessage<T, TProperty>(this IRuleBuilder<T, TProperty> builder, string message)
-        => builder.AddDecorator(new MessageDecorator<T, TProperty>(builder.GetActiveSpecification(), message));
+        => builder.AddDecorator(new MessageDecorator<T, TProperty>(message));
     
     public static IRuleBuilder<T, TProperty> WithSeverity<T, TProperty>(this IRuleBuilder<T, TProperty> builder, Severity severity)
-        => builder.AddDecorator(new SeverityDecorator<T, TProperty>(builder.GetActiveSpecification(), severity));
+        => builder.AddDecorator(new SeverityDecorator<T, TProperty>(severity));
 
 }

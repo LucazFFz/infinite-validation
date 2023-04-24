@@ -3,7 +3,12 @@
 public class SeverityDecorator<T, TProperty> : Decorator<T, TProperty>
 {
     private readonly Severity _severity;
-    
+
+    public SeverityDecorator(Severity severity)
+    {
+        _severity = severity;
+    }
+
     public SeverityDecorator(ISpecification<T, TProperty> specification, Severity severity) : base(specification)
     {
         _severity = severity;
