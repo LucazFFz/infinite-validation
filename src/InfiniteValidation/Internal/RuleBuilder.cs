@@ -14,6 +14,12 @@ internal class RuleBuilder<T, TProperty> : IRuleBuilderInitial<T, TProperty>, IR
         _rule.CascadeMode = mode;
         return this;
     }
+
+    public IRuleBuilderInitial<T, TProperty> Include(IValidator<TProperty> validator)
+    {
+        _rule.ChildValidator = validator;
+        return this;
+    }
     
     public IRuleBuilderSettings<T, TProperty> AddSpecification(ISpecification<T, TProperty> specification)
     {
