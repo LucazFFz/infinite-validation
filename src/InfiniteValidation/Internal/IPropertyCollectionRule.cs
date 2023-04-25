@@ -3,9 +3,13 @@ using InfiniteValidation.Results;
 
 namespace InfiniteValidation.Internal;
 
-internal interface IPropertyCollectionRule<T, TProperty, TElement>
+internal interface IPropertyCollectionRule<T, TElement>
 {
-    public Expression<Func<T, TProperty>> Expression { get; }
+    public IValidator<TElement> ChildValidator { get; set; }
+
+    public Func<TElement, bool> ShouldValidateChildCondition { get; set; } 
+    
+    public Expression<Func<T, IEnumerable<TElement>>> Expression { get; }
     
     public CascadeMode CascadeMode { get; set; }
     

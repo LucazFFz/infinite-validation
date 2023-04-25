@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using InfiniteValidation.Exceptions;
 using InfiniteValidation.Internal;
 using ValidationResult = InfiniteValidation.Results.ValidationResult;
@@ -8,21 +7,22 @@ namespace InfiniteValidation;
 
 public abstract class Validator<T> : IValidator<T>
 {
+    // TODO: unpredictable how the builder mutates the rules. RuleBuilder.Build is never even called
     private readonly List<IValidatorRule<T>> _rules = new();
 
     protected ValidatorConfiguration Configuration { get; } = new();
-    
-    public ValidationResult Validate(T instance, ValidationSettings settings) 
-        => Validate(new ValidationContext<T>(instance), settings);
-    
+
+    public ValidationResult Validate(T instance, ValidationSettings settings)
+        => Validate(new ValidationContext<T>(instance, settings));
+
     public ValidationResult Validate(T instance) 
-        => Validate(new ValidationContext<T>(instance), new ValidationSettings());
+        => Validate(new ValidationContext<T>(instance, new ValidationSettings()));
 
     public ValidationResult Validate(T instance, Action<ValidationSettings> settings)
     {
         var validationSettings = new ValidationSettings();
         settings.Invoke(validationSettings);
-        return Validate(new ValidationContext<T>(instance), validationSettings);
+        return Validate(new ValidationContext<T>(instance, new ValidationSettings()));
     }
 
     public List<IValidatorRule<T>> GetRules() => _rules;
@@ -37,17 +37,17 @@ public abstract class Validator<T> : IValidator<T>
     
     protected ICollectionRuleBuilderInitial<T, TElement> RuleForEach<TElement>(Expression<Func<T, IEnumerable<TElement>>> expression)
     {
-        var rule = new CollectionRule<T, IEnumerable<TElement>, TElement>(expression, Configuration.RuleLevelDefaultCascadeMode);
-        var builder = new CollectionRuleBuilder<T, IEnumerable<TElement>, TElement>(rule);
+        var rule = new CollectionRule<T, TElement>(expression, Configuration.RuleLevelDefaultCascadeMode);
+        var builder = new CollectionRuleBuilder<T, TElement>(rule);
         _rules.Add(rule);
         return builder;
     }
     
-    protected void Include(IValidator<T> validator) =>  _rules.AddRange(validator.GetRules());
+    protected  void Include(IValidator<T> validator) =>  _rules.AddRange(validator.GetRules());
 
-    private ValidationResult Validate(ValidationContext<T> context, ValidationSettings settings)
+    private ValidationResult Validate(ValidationContext<T> context)
     {
-        var result = new ValidationResult(settings);
+        var result = new ValidationResult(context.Settings);
         
         foreach (var rule in _rules)
         {
@@ -55,7 +55,7 @@ public abstract class Validator<T> : IValidator<T>
             if (result.Errors.Any() && Configuration.ClassLevelDefaultCascadeMode == CascadeMode.Stop) break;
         }
         
-        if (settings.ThrowExceptionOnInvalid && !result.IsValid) RaiseException(result);
+        if (context.Settings.ThrowExceptionOnInvalid && !result.IsValid) RaiseException(result);
         return result;
     }
     

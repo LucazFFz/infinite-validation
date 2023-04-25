@@ -1,11 +1,10 @@
 namespace InfiniteValidation.Internal;
 
-internal class CollectionRuleBuilder<T, TProperty, TElement> : ICollectionRuleBuilderInitial<T, TElement>, IRuleBuilderSettings<T, TElement>
-    where TProperty : IEnumerable<TElement>
+internal class CollectionRuleBuilder<T, TElement> : ICollectionRuleBuilderInitial<T, TElement>, IRuleBuilderSettings<T, TElement>
 {
-    private readonly IPropertyCollectionRule<T, TProperty, TElement> _propertyCollectionRule;
+    private readonly IPropertyCollectionRule<T, TElement> _propertyCollectionRule;
 
-    public CollectionRuleBuilder(IPropertyCollectionRule<T, TProperty, TElement> propertyCollectionRule)
+    public CollectionRuleBuilder(IPropertyCollectionRule<T, TElement> propertyCollectionRule)
     {
         _propertyCollectionRule = propertyCollectionRule;
     }
@@ -15,7 +14,19 @@ internal class CollectionRuleBuilder<T, TProperty, TElement> : ICollectionRuleBu
         _propertyCollectionRule.CascadeMode = mode;
         return this;
     }
-    
+
+    public ICollectionRuleBuilderInitial<T, TElement> Where(Func<TElement, bool> condition)
+    {
+        _propertyCollectionRule.ShouldValidateChildCondition = condition;
+        return this;
+    }
+
+    public ICollectionRuleBuilderInitial<T, TElement> Include(IValidator<TElement> validator)
+    {
+        _propertyCollectionRule.ChildValidator = validator;
+        return this;
+    }
+
     public IRuleBuilderSettings<T, TElement> AddSpecification(ISpecification<T, TElement> specification)
     {
         _propertyCollectionRule.Specifications.Add(specification);
@@ -29,5 +40,5 @@ internal class CollectionRuleBuilder<T, TProperty, TElement> : ICollectionRuleBu
         return this;
     }
 
-    internal IPropertyCollectionRule<T, TProperty, TElement> Build() => _propertyCollectionRule;
+    internal IPropertyCollectionRule<T, TElement> Build() => _propertyCollectionRule;
 }
