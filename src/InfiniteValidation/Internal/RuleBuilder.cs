@@ -2,31 +2,31 @@
 
 internal class RuleBuilder<T, TProperty> : IRuleBuilderInitial<T, TProperty>, IRuleBuilderSettings<T, TProperty>
 {
-    private readonly IPropertyRule<T, TProperty> _propertyRule;
+    private readonly IPropertyRule<T, TProperty> _rule;
 
-    public RuleBuilder(IPropertyRule<T, TProperty> propertyRule)
+    public RuleBuilder(IPropertyRule<T, TProperty> rule)
     {
-        _propertyRule = propertyRule;
+        _rule = rule;
     }
 
     public IRuleBuilderInitial<T, TProperty> CascadeMode(CascadeMode mode)
     {
-        _propertyRule.CascadeMode = mode;
+        _rule.CascadeMode = mode;
         return this;
     }
     
     public IRuleBuilderSettings<T, TProperty> AddSpecification(ISpecification<T, TProperty> specification)
     {
-        _propertyRule.Specifications.Add(specification);
+        _rule.Specifications.Add(specification);
         return this;
     }
     
-    public IRuleBuilderSettings<T, TProperty> AddDecorator(IDecorator<T, TProperty> decorator)
+    public IRuleBuilderSettings<T, TProperty> Decorate(IDecorator<T, TProperty> decorator)
     {
-        decorator.Specification = _propertyRule.Specifications.Last();
-        _propertyRule.Specifications.ReplaceLast(decorator);
+        decorator.Specification = _rule.Specifications.Last();
+        _rule.Specifications.ReplaceLast(decorator);
         return this;
     }
 
-    internal IPropertyRule<T, TProperty> Build() => _propertyRule;
+    internal IPropertyRule<T, TProperty> Build() => _rule;
 }

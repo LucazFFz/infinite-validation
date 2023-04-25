@@ -8,6 +8,8 @@ public class CustomerValidator : Validator<Customer>
     public CustomerValidator()
     {
         RuleForEach(x => x.Orders).Include(new OrderValidator()).Where(x => x.Company == DeliveryCompany.FedEx);
+
+        RuleFor(x => x.Age).Must(x => x == 2);
     }
 }
 

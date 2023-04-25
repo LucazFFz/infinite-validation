@@ -33,7 +33,7 @@ internal class CollectionRuleBuilder<T, TElement> : ICollectionRuleBuilderInitia
         return this;
     }
     
-    public IRuleBuilderSettings<T, TElement> AddDecorator(IDecorator<T, TElement> decorator)
+    public IRuleBuilderSettings<T, TElement> Decorate(IDecorator<T, TElement> decorator)
     {
         decorator.Specification = _propertyCollectionRule.Specifications.Last();
         _propertyCollectionRule.Specifications.ReplaceLast(decorator);
