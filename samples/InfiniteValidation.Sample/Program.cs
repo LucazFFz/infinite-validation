@@ -1,9 +1,13 @@
-﻿using InfiniteValidation;
-using InfiniteValidation.Sample;
+﻿using InfiniteValidation.Sample;
 
-var validator = new CanDrinkValidator();
+var validator = new CustomerValidator();
 
-var person = new Person("Lucaz", null, 17);
+var person = new Customer("Sven", "Svensson", 42, new List<Order>
+{
+    new Order(145, new DateTime(2020, 06, 23, 05, 34, 50), DeliveryCompany.FedEx, 10), // in the past
+    new Order(9, new DateTime(2023, 04, 29, 12, 04, 12), DeliveryCompany.FedEx, 1), // in the future from now
+    new Order(254, new DateTime(2020, 03, 23, 14, 03, 05), DeliveryCompany.UPS, 15) // in the past
+});
 
 var result = validator.Validate(person, settings =>
 {
