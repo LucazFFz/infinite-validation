@@ -1,3 +1,5 @@
+using InfiniteValidation.Internal;
+
 namespace InfiniteValidation.Decorators;
 
 public class OtherwiseDecorator<T, TProperty> : Decorator<T, TProperty>
@@ -6,6 +8,7 @@ public class OtherwiseDecorator<T, TProperty> : Decorator<T, TProperty>
 
     public OtherwiseDecorator(ISpecification<T, TProperty> specification)
     {
+        specification.Guard(nameof(specification));
         _specification = specification;
     }
 

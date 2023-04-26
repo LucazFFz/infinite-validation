@@ -1,4 +1,6 @@
-﻿namespace InfiniteValidation.Decorators;
+﻿using InfiniteValidation.Internal;
+
+namespace InfiniteValidation.Decorators;
 
 public class SeverityDecorator<T, TProperty> : Decorator<T, TProperty>
 {

@@ -1,4 +1,6 @@
-﻿namespace InfiniteValidation.Decorators;
+﻿using InfiniteValidation.Internal;
+
+namespace InfiniteValidation.Decorators;
 
 public class UnlessDecorator<T, TProperty> : Decorator<T, TProperty>
 {
@@ -6,6 +8,7 @@ public class UnlessDecorator<T, TProperty> : Decorator<T, TProperty>
 
     public UnlessDecorator(Func<TProperty, bool> condition)
     {
+        condition.Guard(nameof(condition));
         _condition = condition;
     }
 

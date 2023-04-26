@@ -1,4 +1,6 @@
-﻿namespace InfiniteValidation.Decorators;
+﻿using InfiniteValidation.Internal;
+
+namespace InfiniteValidation.Decorators;
 
 public class WhenDecorator<T, TProperty> : Decorator<T, TProperty>
 {
@@ -6,6 +8,7 @@ public class WhenDecorator<T, TProperty> : Decorator<T, TProperty>
 
     public WhenDecorator(Func<TProperty, bool> condition)
     {
+        condition.Guard(nameof(condition));
         _condition = condition;
     }
     
