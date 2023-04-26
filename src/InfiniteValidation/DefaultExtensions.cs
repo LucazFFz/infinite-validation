@@ -20,6 +20,9 @@ public static class DefaultExtensions
     
     public static IRuleBuilderSettings<T, string> Match<T>(this IRuleBuilder<T, string> builder, Regex regex)
         => builder.AddSpecification(new RegularExpressionSpecification<T>(regex));
+    
+    public static IRuleBuilderSettings<T, string> Match<T>(this IRuleBuilder<T, string> builder, string regex, RegexOptions options)
+        => builder.AddSpecification(new RegularExpressionSpecification<T>(regex, options));
 
     public static IRuleBuilderSettings<T, TProperty> When<T, TProperty>(this IRuleBuilderSettings<T, TProperty> builder, Func<TProperty, bool> condition)
         => builder.Decorate(new WhenDecorator<T, TProperty>(condition));

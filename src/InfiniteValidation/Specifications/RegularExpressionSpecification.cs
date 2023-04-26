@@ -4,26 +4,34 @@ using InfiniteValidation.Internal;
 namespace InfiniteValidation.Specifications;
 
 public class RegularExpressionSpecification<T> : Specification<T, string>
-{ 
-    private readonly Regex _regularExpression;
+{
+    private readonly Regex _regex;
 
-    public RegularExpressionSpecification(string regularExpression)
+    public RegularExpressionSpecification(Regex regex)
     {
-        _regularExpression = new Regex(regularExpression);
+        regex.Guard(nameof(regex));
+        _regex = regex;
     }
-
-    public RegularExpressionSpecification(Regex regularExpression)
+    
+    public RegularExpressionSpecification(string regex)
     {
-        _regularExpression = regularExpression;
+        regex.Guard(nameof(regex));
+        _regex = new Regex(regex);
     }
-
+    
+    public RegularExpressionSpecification(string regex, RegexOptions options)
+    {
+        regex.Guard(nameof(regex));
+        _regex = new Regex(regex, options);
+    }
+    
     public override bool IsSatisfiedBy(ValidationContext<T> context, string value)
     {
-        value.Guard(GetSpecificationName());
-        return _regularExpression.IsMatch(value);
+        value.Guard(nameof(value));
+        return _regex.IsMatch(value);
     }
 
     public override string GetSpecificationName() => "RegularExpressionSpecification";
     
-    public override string GetErrorMessage() => $"Value does not match {_regularExpression}";
+    public override string GetErrorMessage() => $"Value does not match {_regex}";
 }
