@@ -32,7 +32,7 @@ internal class Rule<T, TProperty> : IPropertyRule<T, TProperty>, IValidatorRule<
         foreach (var specification in Specifications
             .Where(specification => !specification.IsSatisfiedBy(context, property)))
         {
-            specification.MessageBuilder.AppendPropertyName(PropertyName).AppendAttemptedValue(property!);
+            specification.MessageBuilder.AppendPropertyName(PropertyName).AppendAttemptedValue(property);
             failures.Add(ValidationFailureFactory.Create(specification, property));
             if (CascadeMode == CascadeMode.Stop) break;
         }
