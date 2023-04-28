@@ -4,7 +4,7 @@ namespace InfiniteValidation;
 
 public abstract class Specification<T, TProperty> : ISpecification<T, TProperty>
 {
-    public MessageBuilder MessageBuilder => new();
+    public MessageBuilder MessageBuilder { get; } = new();
     
     public abstract bool IsSatisfiedBy(ValidationContext<T> context, TProperty value);
 
