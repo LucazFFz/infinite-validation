@@ -41,4 +41,7 @@ public static class DefaultExtensions
     
     public static IRuleBuilderSettings<T, TProperty> WithSeverity<T, TProperty>(this IRuleBuilderSettings<T, TProperty> builder, Severity severity)
         => builder.Decorate(new SeverityDecorator<T, TProperty>(severity));
+    
+    public static IRuleBuilderSettings<T, TProperty> WithSpecificationName<T, TProperty>(this IRuleBuilderSettings<T, TProperty> builder, string specificationName)
+        => builder.Decorate(new SpecificationNameDecorator<T, TProperty>(specificationName));
 }
