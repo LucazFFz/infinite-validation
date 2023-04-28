@@ -8,7 +8,7 @@ internal static class ValidationFailureFactory
     {
         return new ValidationFailure
         {
-            FailureMessage = specification.GetErrorMessage(),
+            FailureMessage = specification.MessageBuilder.BuildMessage(specification.GetMessageFormat()),
             SpecificationName = specification.GetSpecificationName(),
             Severity = specification.GetSeverity(),
             AttemptedValue = value

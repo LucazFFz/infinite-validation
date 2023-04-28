@@ -29,7 +29,7 @@ public abstract class Validator<T> : IValidator<T>
     
     protected IRuleBuilderInitial<T, TProperty> RuleFor<TProperty>(Expression<Func<T, TProperty>> expression)
     {
-        var rule = new Rule<T, TProperty>(expression, Configuration.RuleLevelDefaultCascadeMode);
+        var rule = new Rule<T, TProperty>(expression, Configuration.RuleLevelDefaultCascadeMode, GetPropertyName(expression));
         var builder = new RuleBuilder<T, TProperty>(rule);
         _rules.Add(rule);
         return builder;
@@ -37,7 +37,7 @@ public abstract class Validator<T> : IValidator<T>
     
     protected ICollectionRuleBuilderInitial<T, TElement> RuleForEach<TElement>(Expression<Func<T, IEnumerable<TElement>>> expression)
     {
-        var rule = new CollectionRule<T, TElement>(expression, Configuration.RuleLevelDefaultCascadeMode);
+        var rule = new CollectionRule<T, TElement>(expression, Configuration.RuleLevelDefaultCascadeMode, GetPropertyName(expression));
         var builder = new CollectionRuleBuilder<T, TElement>(rule);
         _rules.Add(rule);
         return builder;
@@ -61,4 +61,10 @@ public abstract class Validator<T> : IValidator<T>
     
     private static void RaiseException(ValidationResult result)
         => throw new ValidationException(result.Errors);
+
+    private static string GetPropertyName<TProperty>(Expression<Func<T, TProperty>> expression)
+    {
+        var action = (MemberExpression) expression.Body;
+        return action.Member.Name;
+    }
 }

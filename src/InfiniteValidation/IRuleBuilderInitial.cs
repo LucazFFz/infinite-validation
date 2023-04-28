@@ -2,6 +2,8 @@
 
 public interface IRuleBuilderInitial<T, TProperty> : IRuleBuilder<T, TProperty>
 {
+    public IRuleBuilderInitial<T, TProperty> PropertyName(string propertyName);
+
     public IRuleBuilderInitial<T, TProperty> CascadeMode(CascadeMode mode);
     
     public IRuleBuilderInitial<T, TProperty> Include(IValidator<TProperty> validator);

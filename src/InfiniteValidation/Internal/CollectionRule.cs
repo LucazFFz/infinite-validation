@@ -5,6 +5,8 @@ namespace InfiniteValidation.Internal;
 
 public class CollectionRule<T, TElement> : IPropertyCollectionRule<T, TElement>, IValidatorRule<T>
 {
+    public string PropertyName { get; set; }
+    
     public IValidator<TElement>? ChildValidator { get; set; } 
 
     public Func<TElement, bool> ShouldValidateChildCondition { get; set; } = _ => true;
@@ -15,10 +17,11 @@ public class CollectionRule<T, TElement> : IPropertyCollectionRule<T, TElement>,
 
     public List<ISpecification<T, TElement>> Specifications { get; set; } = new();
     
-    public CollectionRule(Expression<Func<T, IEnumerable<TElement>>> expression, CascadeMode cascadeMode)
+    public CollectionRule(Expression<Func<T, IEnumerable<TElement>>> expression, CascadeMode cascadeMode, string propertyName)
     { 
         CascadeMode = cascadeMode;
         Expression = expression;
+        PropertyName = propertyName;
     }
 
     public IEnumerable<ValidationFailure> IsValid(ValidationContext<T> context)
@@ -34,6 +37,7 @@ public class CollectionRule<T, TElement> : IPropertyCollectionRule<T, TElement>,
             foreach (var specification in Specifications
                 .Where(specification => !specification.IsSatisfiedBy(context, property)))
             {
+                specification.MessageBuilder.AppendPropertyName(PropertyName).AppendAttemptedValue(property!);
                 failures.Add(ValidationFailureFactory.Create(specification, property));
                 if (CascadeMode == CascadeMode.Stop) break;
             }

@@ -5,6 +5,8 @@ namespace InfiniteValidation.Internal;
 
 internal interface IPropertyCollectionRule<T, TElement>
 {
+    public string PropertyName { get; set; }
+    
     public IValidator<TElement> ChildValidator { get; set; }
 
     public Func<TElement, bool> ShouldValidateChildCondition { get; set; } 

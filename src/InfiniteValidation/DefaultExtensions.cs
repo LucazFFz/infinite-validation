@@ -16,13 +16,13 @@ public static class DefaultExtensions
         => builder.AddSpecification(new EqualSpecification<T, TProperty>(value));
 
     public static IRuleBuilderSettings<T, string> Match<T>(this IRuleBuilder<T, string> builder, string regex)
-        => builder.AddSpecification(new RegularExpressionSpecification<T>(regex));
+        => builder.AddSpecification(new RegexSpecification<T>(regex));
     
     public static IRuleBuilderSettings<T, string> Match<T>(this IRuleBuilder<T, string> builder, Regex regex)
-        => builder.AddSpecification(new RegularExpressionSpecification<T>(regex));
+        => builder.AddSpecification(new RegexSpecification<T>(regex));
     
     public static IRuleBuilderSettings<T, string> Match<T>(this IRuleBuilder<T, string> builder, string regex, RegexOptions options)
-        => builder.AddSpecification(new RegularExpressionSpecification<T>(regex, options));
+        => builder.AddSpecification(new RegexSpecification<T>(regex, options));
 
     public static IRuleBuilderSettings<T, TProperty> When<T, TProperty>(this IRuleBuilderSettings<T, TProperty> builder, Func<TProperty, bool> condition)
         => builder.Decorate(new WhenDecorator<T, TProperty>(condition));

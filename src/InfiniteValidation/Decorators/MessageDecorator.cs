@@ -2,12 +2,12 @@
 
 public class MessageDecorator<T, TProperty> : Decorator<T, TProperty>
 {
-    private readonly string _message;
+    private readonly string _messageFormat;
 
-    public MessageDecorator(string message)
+    public MessageDecorator(string messageFormat)
     {
-        _message = message;
+        _messageFormat = messageFormat;
     }
 
-    public override string GetErrorMessage() => _message;
+    public override string GetMessageFormat() => _messageFormat;
 }

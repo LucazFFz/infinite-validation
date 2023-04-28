@@ -6,5 +6,5 @@ public class DefaultSpecification<T, TProperty> : Specification<T, TProperty>
 
     public override string GetSpecificationName() => "DefaultSpecification";
 
-    public override string GetErrorMessage() => string.Empty;
+    public override string GetMessageFormat() => string.Empty;
 }

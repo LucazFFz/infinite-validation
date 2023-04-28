@@ -3,26 +3,29 @@ using InfiniteValidation.Internal;
 
 namespace InfiniteValidation.Specifications;
 
-public class RegularExpressionSpecification<T> : Specification<T, string>
+public class RegexSpecification<T> : Specification<T, string>
 {
     private readonly Regex _regex;
 
-    public RegularExpressionSpecification(Regex regex)
+    public RegexSpecification(Regex regex)
     {
         regex.Guard(nameof(regex));
         _regex = regex;
+        MessageBuilder.AppendArgument("Regex", regex);
     }
     
-    public RegularExpressionSpecification(string regex)
+    public RegexSpecification(string regex)
     {
         regex.Guard(nameof(regex));
         _regex = new Regex(regex);
+        MessageBuilder.AppendArgument("Regex", regex);
     }
     
-    public RegularExpressionSpecification(string regex, RegexOptions options)
+    public RegexSpecification(string regex, RegexOptions options)
     {
         regex.Guard(nameof(regex));
         _regex = new Regex(regex, options);
+        MessageBuilder.AppendArgument("Regex", regex);
     }
     
     public override bool IsSatisfiedBy(ValidationContext<T> context, string value)
@@ -31,7 +34,7 @@ public class RegularExpressionSpecification<T> : Specification<T, string>
         return _regex.IsMatch(value);
     }
 
-    public override string GetSpecificationName() => "RegularExpressionSpecification";
+    public override string GetSpecificationName() => "RegexSpecification";
     
-    public override string GetErrorMessage() => $"Value does not match {_regex}";
+    public override string GetMessageFormat() => "'{PropertyName}' must match regex: '({Regex})'.";
 }

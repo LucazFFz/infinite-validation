@@ -9,6 +9,12 @@ internal class RuleBuilder<T, TProperty> : IRuleBuilderInitial<T, TProperty>, IR
         _rule = rule;
     }
 
+    public IRuleBuilderInitial<T, TProperty> PropertyName(string propertyName)
+    {
+        _rule.PropertyName = propertyName;
+        return this;
+    }
+
     public IRuleBuilderInitial<T, TProperty> CascadeMode(CascadeMode mode)
     {
         _rule.CascadeMode = mode;

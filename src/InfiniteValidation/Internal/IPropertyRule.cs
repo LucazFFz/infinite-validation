@@ -5,6 +5,8 @@ namespace InfiniteValidation.Internal;
 
 internal interface IPropertyRule<T, TProperty>
 {
+    public string PropertyName { get; set; }
+    
     public IValidator<TProperty>? ChildValidator { get; set; } 
     
     public Expression<Func<T, TProperty>> Expression { get; }

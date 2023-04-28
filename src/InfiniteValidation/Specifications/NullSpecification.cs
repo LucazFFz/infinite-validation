@@ -6,5 +6,5 @@ public class NullSpecification<T, TProperty> : Specification<T, TProperty>
     
     public override string GetSpecificationName() => "NullSpecification";
     
-    public override string GetErrorMessage() => "Value is not null";
+    public override string GetMessageFormat() => "'{PropertyName}' must equal 'null'.";
 }

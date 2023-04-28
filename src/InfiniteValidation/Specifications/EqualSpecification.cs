@@ -1,7 +1,7 @@
 ﻿namespace InfiniteValidation.Specifications;
 
 public class EqualSpecification<T, TProperty> : Specification<T, TProperty>
-{ 
+{
     private readonly TProperty _comparisonValue;
 
     private readonly IEqualityComparer<TProperty>? _comparer;
@@ -10,6 +10,8 @@ public class EqualSpecification<T, TProperty> : Specification<T, TProperty>
     {
         _comparisonValue = comparisonValue;
         _comparer = comparer;
+        
+        MessageBuilder.AppendArgument("ComparisonValue", comparisonValue);
     }
 
     public override bool IsSatisfiedBy(ValidationContext<T> context, TProperty value) 
@@ -17,7 +19,7 @@ public class EqualSpecification<T, TProperty> : Specification<T, TProperty>
     
     public override string GetSpecificationName() => "EqualSpecification";
     
-    public override string GetErrorMessage() => $"Value is not equal to {_comparisonValue}";
+    public override string GetMessageFormat() => "'{PropertyName}' must equal '{ComparisonValue}'.";
 
     private bool Compare(TProperty comparisonValue, TProperty value) 
         => _comparer?.Equals(comparisonValue, value) ?? Equals(_comparisonValue, value);

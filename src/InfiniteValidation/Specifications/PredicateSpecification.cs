@@ -16,5 +16,5 @@ public class PredicateSpecification<T, TProperty> : Specification<T, TProperty>
 
     public override string GetSpecificationName() => "PredicateSpecification";
 
-    public override string GetErrorMessage() => "Value does not pass predicate";
+    public override string GetMessageFormat() => "'{PropertyName}' must fulfill predicate.";
 }

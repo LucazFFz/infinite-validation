@@ -17,7 +17,7 @@ public class OtherwiseDecorator<T, TProperty> : Decorator<T, TProperty>
     
     public override string GetSpecificationName() => _specification.GetSpecificationName();
 
-    public override string GetErrorMessage() => _specification.GetErrorMessage();
+    public override string GetMessageFormat() => _specification.GetMessageFormat();
 
     public override Severity GetSeverity() => _specification.GetSeverity();
 }

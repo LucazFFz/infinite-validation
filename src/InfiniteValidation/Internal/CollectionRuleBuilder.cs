@@ -8,6 +8,12 @@ internal class CollectionRuleBuilder<T, TElement> : ICollectionRuleBuilderInitia
     {
         _collectionRule = collectionRule;
     }
+    
+    public ICollectionRuleBuilderInitial<T, TElement> PropertyName(string propertyName)
+    {
+        _collectionRule.PropertyName = propertyName;
+        return this;
+    }
 
     public ICollectionRuleBuilderInitial<T, TElement> CascadeMode(CascadeMode mode)
     {
