@@ -23,18 +23,21 @@ internal class RuleBuilder<T, TProperty> : IRuleBuilderInitial<T, TProperty>, IR
 
     public IRuleBuilderInitial<T, TProperty> Include(IValidator<TProperty> validator)
     {
+        validator.Guard(nameof(validator));
         _rule.ChildValidator = validator;
         return this;
     }
     
     public IRuleBuilderSettings<T, TProperty> AddSpecification(ISpecification<T, TProperty> specification)
     {
+        specification.Guard(nameof(specification));
         _rule.Specifications.Add(specification);
         return this;
     }
     
     public IRuleBuilderSettings<T, TProperty> Decorate(IDecorator<T, TProperty> decorator)
     {
+        decorator.Guard(nameof(decorator));
         decorator.Specification = _rule.Specifications.Last();
         _rule.Specifications.ReplaceLast(decorator);
         return this;
