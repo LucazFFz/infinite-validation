@@ -36,5 +36,5 @@ public class RegexSpecification<T> : Specification<T, string>
 
     public override string GetSpecificationName() => "RegexSpecification";
     
-    public override string GetMessageFormat() => "'{PropertyName}' must match regex: '({Regex})'.";
+    public override string GetMessageFormat() => "'{PropertyName}' must match regex: '{Regex}'.";
 }

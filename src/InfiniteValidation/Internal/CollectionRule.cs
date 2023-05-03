@@ -37,10 +37,12 @@ public class CollectionRule<T, TElement> : IPropertyCollectionRule<T, TElement>,
             foreach (var specification in Specifications
                 .Where(specification => !specification.IsSatisfiedBy(context, property)))
             {
-                specification.MessageBuilder.AppendPropertyName(PropertyName).AppendAttemptedValue(property!);
+                specification.MessageBuilder.AppendPropertyName(PropertyName).AppendAttemptedValue(property);
                 failures.Add(ValidationFailureFactory.Create(specification, property));
                 if (CascadeMode == CascadeMode.Stop) break;
             }
+            
+            if (CascadeMode == CascadeMode.Stop) break;
         }
 
         return failures;

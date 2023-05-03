@@ -6,12 +6,12 @@ internal static class ValidationFailureFactory
 {
     public static ValidationFailure Create<T, TProperty>(ISpecification<T, TProperty> specification, TProperty value)
     {
-        return new ValidationFailure
+        return new ValidationFailure(
+            specification.GetSpecificationName(), 
+            specification.MessageBuilder.BuildMessage(specification.GetMessageFormat()), 
+            value)
         {
-            FailureMessage = specification.MessageBuilder.BuildMessage(specification.GetMessageFormat()),
-            SpecificationName = specification.GetSpecificationName(),
-            Severity = specification.GetSeverity(),
-            AttemptedValue = value
+            Severity = specification.GetSeverity()
         };
     }
 }

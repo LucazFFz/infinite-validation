@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using InfiniteValidation.Internal;
 
 namespace InfiniteValidation;
 
@@ -27,8 +28,12 @@ public partial class MessageBuilder
         AppendArgument(PropertyValue, value);
         return this;
     }
-    
-    internal virtual string BuildMessage(string template) => KeyRegex().Replace(template, ProcessMatchedValue!);
+
+    public virtual string BuildMessage(string template)
+    {
+        template.Guard(nameof(template));
+        return KeyRegex().Replace(template, ProcessMatchedValue!);
+    }
 
     private string? ProcessMatchedValue(Match match)
     {

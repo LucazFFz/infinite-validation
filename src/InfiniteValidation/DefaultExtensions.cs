@@ -15,6 +15,9 @@ public static class DefaultExtensions
     public static IRuleBuilderSettings<T, TProperty> Equal<T, TProperty>(this IRuleBuilder<T, TProperty> builder, TProperty value)
         => builder.AddSpecification(new EqualSpecification<T, TProperty>(value));
 
+    public static IRuleBuilderSettings<T, TProperty> Equal<T, TProperty>(this IRuleBuilder<T, TProperty> builder, TProperty value, IEqualityComparer<TProperty> comparer)
+        => builder.AddSpecification(new EqualSpecification<T, TProperty>(value, comparer));
+
     public static IRuleBuilderSettings<T, string> Match<T>(this IRuleBuilder<T, string> builder, string regex)
         => builder.AddSpecification(new RegexSpecification<T>(regex));
     
@@ -30,12 +33,6 @@ public static class DefaultExtensions
     public static IRuleBuilderSettings<T, TProperty> Unless<T, TProperty>(this IRuleBuilderSettings<T, TProperty> builder, Func<TProperty, bool> condition)
         => builder.Decorate(new UnlessDecorator<T, TProperty>(condition));
 
-    public static IRuleBuilderSettings<T, TProperty> Otherwise<T, TProperty>(this IRuleBuilderSettings<T, TProperty> builder, ISpecification<T, TProperty> specification)
-        => builder.Decorate(new OtherwiseDecorator<T, TProperty>(specification));
-    
-    public static IRuleBuilderSettings<T, TProperty> Otherwise<T, TProperty>(this IRuleBuilderSettings<T, TProperty> builder, Func<TProperty, bool> predicate)
-        => builder.Decorate(new OtherwiseDecorator<T, TProperty>(new PredicateSpecification<T, TProperty>(predicate)));
-    
     public static IRuleBuilderSettings<T, TProperty> Not<T, TProperty>(this IRuleBuilderSettings<T, TProperty> builder)
         => builder.Decorate(new NotDecorator<T, TProperty>());
     
@@ -44,4 +41,7 @@ public static class DefaultExtensions
     
     public static IRuleBuilderSettings<T, TProperty> WithSeverity<T, TProperty>(this IRuleBuilderSettings<T, TProperty> builder, Severity severity)
         => builder.Decorate(new SeverityDecorator<T, TProperty>(severity));
+    
+    public static IRuleBuilderSettings<T, TProperty> WithSpecificationName<T, TProperty>(this IRuleBuilderSettings<T, TProperty> builder, string specificationName)
+        => builder.Decorate(new SpecificationNameDecorator<T, TProperty>(specificationName));
 }
