@@ -1,6 +1,6 @@
 ﻿namespace InfiniteValidation.Results;
 
-public class ValidationFailure
+public class SpecificationFailure
 {
     public string SpecificationName { get; internal set; } 
     
@@ -10,7 +10,7 @@ public class ValidationFailure
     
     public Severity Severity { get; internal set; } 
 
-    public ValidationFailure(string specificationName, string failureMessage, object? attemptedValue, Severity severity = Severity.Error)
+    public SpecificationFailure(string specificationName, string failureMessage, object? attemptedValue, Severity severity = Severity.Error)
     {
         SpecificationName = specificationName;
         FailureMessage = failureMessage;

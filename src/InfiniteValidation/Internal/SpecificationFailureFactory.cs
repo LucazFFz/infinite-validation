@@ -2,7 +2,7 @@
 
 namespace InfiniteValidation.Internal;
 
-internal static class ValidationFailureFactory
+internal static class SpecificationFailureFactory
 {
     public static SpecificationFailure Create<T, TProperty>(ISpecification<T, TProperty> specification, TProperty value)
     {

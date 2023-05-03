@@ -24,15 +24,15 @@ public class CollectionRule<T, TElement> : IPropertyCollectionRule<T, TElement>,
         PropertyName = propertyName;
     }
 
-    public IEnumerable<ValidationFailure> IsValid(ValidationContext<T> context)
+    public IEnumerable<SpecificationFailure> IsValid(ValidationContext<T> context)
     {
-        var failures = new List<ValidationFailure>();
+        var failures = new List<SpecificationFailure>();
         var instance = Expression.Compile()(context.InstanceToValidate);
 
         foreach (var property in instance)
         {
             if(!ShouldValidateChildCondition.Invoke(property)) continue;
-            if(ChildValidator != null) failures.AddRange(ChildValidator.Validate(property, context.Settings).Errors);
+            if(ChildValidator != null) failures.AddRange(ChildValidator.Validate(property, context.Settings).Failures);
             
             foreach (var specification in Specifications
                 .Where(specification => !specification.IsSatisfiedBy(context, property)))

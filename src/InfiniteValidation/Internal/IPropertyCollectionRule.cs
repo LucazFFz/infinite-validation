@@ -17,5 +17,5 @@ internal interface IPropertyCollectionRule<T, TElement>
     
     public List<ISpecification<T, TElement>> Specifications { get; }
     
-    public IEnumerable<ValidationFailure> IsValid(ValidationContext<T> context);
+    public IEnumerable<SpecificationFailure> IsValid(ValidationContext<T> context);
 }

@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{C711
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfiniteValidation.Sample", "samples\InfiniteValidation.Sample\InfiniteValidation.Sample.csproj", "{A1592ABA-E577-4063-96E3-2927B2612E16}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BF24F219-D177-4D7C-AE0B-E8596B6AEC1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfiniteValidation.Tests", "tests\InfiniteValidation.Tests\InfiniteValidation.Tests.csproj", "{84284388-CE8C-4E39-8BAB-C19F9AA818F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,9 +32,14 @@ Global
 		{A1592ABA-E577-4063-96E3-2927B2612E16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1592ABA-E577-4063-96E3-2927B2612E16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1592ABA-E577-4063-96E3-2927B2612E16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84284388-CE8C-4E39-8BAB-C19F9AA818F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84284388-CE8C-4E39-8BAB-C19F9AA818F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84284388-CE8C-4E39-8BAB-C19F9AA818F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84284388-CE8C-4E39-8BAB-C19F9AA818F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8970D30B-956F-4378-ACCE-C3D4833B94A0} = {78F8E444-C866-40F3-BEBE-DCE3815C5ED3}
 		{A1592ABA-E577-4063-96E3-2927B2612E16} = {C7114690-8F9F-4F6A-A8B6-6BA379B7D18F}
+		{84284388-CE8C-4E39-8BAB-C19F9AA818F2} = {BF24F219-D177-4D7C-AE0B-E8596B6AEC1E}
 	EndGlobalSection
 EndGlobal

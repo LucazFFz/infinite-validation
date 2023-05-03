@@ -51,8 +51,8 @@ public abstract class Validator<T> : IValidator<T>
         
         foreach (var rule in _rules)
         {
-            result.Errors.AddRange(rule.IsValid(context));
-            if (result.Errors.Any() && Configuration.ClassLevelDefaultCascadeMode == CascadeMode.Stop) break;
+            result.Failures.AddRange(rule.IsValid(context));
+            if (result.Failures.Any() && Configuration.ClassLevelDefaultCascadeMode == CascadeMode.Stop) break;
         }
         
         if (context.Settings.ThrowExceptionOnInvalid && !result.IsValid) RaiseException(result);
@@ -60,7 +60,7 @@ public abstract class Validator<T> : IValidator<T>
     }
     
     private static void RaiseException(ValidationResult result)
-        => throw new ValidationException(result.Errors);
+        => throw new ValidationException(result.Failures);
 
     private static string GetPropertyName<TProperty>(Expression<Func<T, TProperty>> expression)
     {

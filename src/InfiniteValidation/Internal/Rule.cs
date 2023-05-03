@@ -22,12 +22,12 @@ internal class Rule<T, TProperty> : IPropertyRule<T, TProperty>, IValidatorRule<
         PropertyName = propertyName;
     }
     
-    public IEnumerable<ValidationFailure> IsValid(ValidationContext<T> context)
+    public IEnumerable<SpecificationFailure> IsValid(ValidationContext<T> context)
     {
-        var failures = new List<ValidationFailure>();
+        var failures = new List<SpecificationFailure>();
         var property = Expression.Compile()(context.InstanceToValidate);
 
-        if(ChildValidator != null) failures.AddRange(ChildValidator.Validate(property, context.Settings).Errors);
+        if(ChildValidator != null) failures.AddRange(ChildValidator.Validate(property, context.Settings).Failures);
         
         foreach (var specification in Specifications
             .Where(specification => !specification.IsSatisfiedBy(context, property)))
