@@ -27,10 +27,10 @@ public static class DefaultExtensions
     public static IRuleBuilderSettings<T, string> Match<T>(this IRuleBuilder<T, string> builder, string regex, RegexOptions options)
         => builder.AddSpecification(new RegexSpecification<T>(regex, options));
 
-    public static IRuleBuilderSettings<T, TProperty> When<T, TProperty>(this IRuleBuilderSettings<T, TProperty> builder, Func<TProperty, bool> condition)
+    public static IRuleBuilderSettings<T, TProperty> When<T, TProperty>(this IRuleBuilderSettings<T, TProperty> builder, Func<T, bool> condition)
         => builder.Decorate(new WhenDecorator<T, TProperty>(condition));
     
-    public static IRuleBuilderSettings<T, TProperty> Unless<T, TProperty>(this IRuleBuilderSettings<T, TProperty> builder, Func<TProperty, bool> condition)
+    public static IRuleBuilderSettings<T, TProperty> Unless<T, TProperty>(this IRuleBuilderSettings<T, TProperty> builder, Func<T, bool> condition)
         => builder.Decorate(new UnlessDecorator<T, TProperty>(condition));
 
     public static IRuleBuilderSettings<T, TProperty> Not<T, TProperty>(this IRuleBuilderSettings<T, TProperty> builder)

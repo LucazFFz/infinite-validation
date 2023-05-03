@@ -8,7 +8,7 @@ public class UnlessDecoratorTests
     public void Is_valid_when_condition_is_true_and_specification_is_false()
     {
         var sut = new TestValidator();
-        sut.RuleFor(x => x.FirstName).Equal("Foo").Unless(x => x.Length >= 3);
+        sut.RuleFor(x => x.FirstName).Equal("Foo").Unless(x => x.FirstName.Length >= 3);
 
         var actual = sut.Validate(new Customer {FirstName = "FizzBuzz"}).IsValid;
         
@@ -19,7 +19,7 @@ public class UnlessDecoratorTests
     public void Is_invalid_when_specification_and_condition_are_false()
     {
         var sut = new TestValidator();
-        sut.RuleFor(x => x.FirstName).Equal("Foo").Unless(x => x.Length >= 3);
+        sut.RuleFor(x => x.FirstName).Equal("Foo").Unless(x => x.FirstName.Length >= 3);
 
         var actual = sut.Validate(new Customer {FirstName = "b"}).IsValid;
         
@@ -30,7 +30,7 @@ public class UnlessDecoratorTests
     public void Is_valid_when_specification_and_condition_are_true()
     {
         var sut = new TestValidator();
-        sut.RuleFor(x => x.FirstName).Equal("Foo").Unless(x => x.Length > 1);
+        sut.RuleFor(x => x.FirstName).Equal("Foo").Unless(x => x.FirstName.Length > 1);
 
         var actual = sut.Validate(new Customer {FirstName = "Foo"}).IsValid;
         
@@ -41,7 +41,7 @@ public class UnlessDecoratorTests
     public void Is_valid_when_specification_is_true_and_condition_is_false()
     {
         var sut = new TestValidator();
-        sut.RuleFor(x => x.FirstName).Equal("Foo").Unless(x => x.Length >= 10);
+        sut.RuleFor(x => x.FirstName).Equal("Foo").Unless(x => x.FirstName.Length >= 10);
 
         var actual = sut.Validate(new Customer {FirstName = "Foo"}).IsValid;
         
