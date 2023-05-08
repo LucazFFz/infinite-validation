@@ -9,7 +9,7 @@ internal class RuleBuilder<T, TProperty> : IRuleBuilderInitial<T, TProperty>, IR
         _rule = rule;
     }
 
-    public IRuleBuilderInitial<T, TProperty> PropertyName(string propertyName)
+    public IRuleBuilderInitial<T, TProperty> OverridePropertyName(string propertyName)
     {
         _rule.PropertyName = propertyName;
         return this;
@@ -21,13 +21,6 @@ internal class RuleBuilder<T, TProperty> : IRuleBuilderInitial<T, TProperty>, IR
         return this;
     }
 
-    public IRuleBuilderInitial<T, TProperty> Include(IValidator<TProperty> validator)
-    {
-        validator.Guard(nameof(validator));
-        _rule.ChildValidator = validator;
-        return this;
-    }
-    
     public IRuleBuilderSettings<T, TProperty> AddSpecification(ISpecification<T, TProperty> specification)
     {
         specification.Guard(nameof(specification));

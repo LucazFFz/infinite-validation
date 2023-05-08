@@ -7,8 +7,9 @@ namespace InfiniteValidation;
 
 public abstract class Validator<T> : IValidator<T>
 {
-    // TODO: unpredictable how the builder mutates the rules. RuleBuilder.Build is never even called
-    private readonly List<IValidatorRule<T>> _rules = new();
+    public const string DefaultRuleSetName = "Default";
+    
+    private readonly List<RuleSetBuilder<T>> _ruleSetBuilders = new();
 
     public ValidatorConfiguration Configuration { get; } = new();
 
@@ -22,16 +23,21 @@ public abstract class Validator<T> : IValidator<T>
     {
         var validationSettings = new ValidationSettings();
         settings.Invoke(validationSettings);
-        return Validate(new ValidationContext<T>(instance, new ValidationSettings()));
+        return Validate(new ValidationContext<T>(instance, validationSettings));
     }
 
-    public List<IValidatorRule<T>> GetRules() => _rules;
-    
+    public List<IRuleSet<T>> GetRuleSets()
+    {
+        var ruleSets = new List<IRuleSet<T>>();
+        _ruleSetBuilders.ForEach(x => ruleSets.Add(x.Build()));
+        return ruleSets;
+    }
+
     public IRuleBuilderInitial<T, TProperty> RuleFor<TProperty>(Expression<Func<T, TProperty>> expression)
     {
         var rule = new Rule<T, TProperty>(expression, Configuration.RuleLevelDefaultCascadeMode, GetPropertyName(expression));
         var builder = new RuleBuilder<T, TProperty>(rule);
-        _rules.Add(rule);
+        RuleSet(DefaultRuleSetName, new List<IValidatorRule<T>> { rule });
         return builder;
     }
     
@@ -39,19 +45,24 @@ public abstract class Validator<T> : IValidator<T>
     {
         var rule = new CollectionRule<T, TElement>(expression, Configuration.RuleLevelDefaultCascadeMode, GetPropertyName(expression));
         var builder = new CollectionRuleBuilder<T, TElement>(rule);
-        _rules.Add(rule);
+        RuleSet(DefaultRuleSetName, new List<IValidatorRule<T>> { rule });
         return builder;
     }
-    
-    public void Include(IValidator<T> validator) =>  _rules.AddRange(validator.GetRules());
 
+    public IRuleSetBuilder<T> RuleSet(string name, IEnumerable<IValidatorRule<T>> rules)
+    {
+        rules.Guard(nameof(rules));
+        return RuleSet(new RuleSet<T>(name, rules));
+    }
+    
     private ValidationResult Validate(ValidationContext<T> context)
     {
         var result = new ValidationResult(context.Settings);
-        
-        foreach (var rule in _rules)
+
+        foreach (var ruleSet in _ruleSetBuilders.Select(ruleSetBuilder => ruleSetBuilder.Build()))
         {
-            result.Failures.AddRange(rule.IsValid(context));
+            if (context.Settings.RuleSetsToValidate.Contains(ruleSet.GetName()) || ruleSet.GetName() == DefaultRuleSetName) 
+                result.Failures.AddRange(ruleSet.IsValid(context));
             if (result.Failures.Any() && Configuration.ClassLevelDefaultCascadeMode == CascadeMode.Stop) break;
         }
         
@@ -66,5 +77,12 @@ public abstract class Validator<T> : IValidator<T>
     {
         var action = (MemberExpression) expression.Body;
         return action.Member.Name;
+    }
+    
+    private IRuleSetBuilder<T> RuleSet(IRuleSet<T> ruleSet)
+    {
+        var builder = new RuleSetBuilder<T>(ruleSet);
+        _ruleSetBuilders.Add(builder);
+        return builder;
     }
 }

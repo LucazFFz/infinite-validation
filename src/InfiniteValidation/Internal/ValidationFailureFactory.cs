@@ -4,9 +4,9 @@ namespace InfiniteValidation.Internal;
 
 internal static class ValidationFailureFactory
 {
-    public static SpecificationFailure Create<T, TProperty>(ISpecification<T, TProperty> specification, TProperty value)
+    public static ValidationFailure Create<T, TProperty>(ISpecification<T, TProperty> specification, TProperty value)
     {
-        return new SpecificationFailure(
+        return new ValidationFailure(
             specification.GetSpecificationName(), 
             specification.MessageBuilder.BuildMessage(specification.GetMessageFormat()), 
             value)

@@ -1,11 +1,53 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using InfiniteValidation.Decorators;
+using InfiniteValidation.Internal;
+using InfiniteValidation.Results;
+using InfiniteValidation.RuleSetDecorators;
 using InfiniteValidation.Specifications;
 
 namespace InfiniteValidation;
 
 public static class DefaultExtensions
 {
+    public static IRuleSetBuilder<T> RuleSet<T>(this Validator<T> validator, string name, Action<IInlineValidator<T>> action)
+    {
+        var innerValidator = new InlineValidator<T>();
+        action.Invoke(innerValidator);
+
+        var rules = new List<IValidatorRule<T>>();
+        innerValidator.GetRuleSets().ForEach(x => rules.AddRange(x.GetRules()));
+        
+        return validator.RuleSet(name, rules);
+    }
+    /*
+    public static IRuleSetBuilder<T> Include<T>(this Validator<T> validator, Action<IInlineValidator<T>> action)
+    {
+        var innerValidator = new InlineValidator<T>();
+        action.Invoke(innerValidator);
+        
+        innerValidator.GetRuleSets().ForEach(x => validator.RuleSet(x));
+    }
+
+    public static IRuleSetBuilder<T> Include<T>(this Validator<T> innerValidator, Validator<T> validator)
+    {
+        validator.GetRuleSets().ForEach(x => innerValidator.RuleSet(x));
+    }
+    */
+
+    public static IRuleSetBuilder<T> IfTrue<T>(this IRuleSetBuilder<T> builder, Action<IInlineValidator<T>> action)
+    {
+        action.Guard(nameof(action));
+        
+        var rules = new List<IValidatorRule<T>>();
+        var validator = new InlineValidator<T>();
+        
+        action.Invoke(validator);
+        validator.GetRuleSets().ForEach(x => rules.AddRange(x.GetRules()));
+        
+        return builder.Decorate(new RuleSetIfTrueDecorator<T>(new RuleSet<T>(Validator<T>.DefaultRuleSetName, rules)));
+    }
+
     public static IRuleBuilderSettings<T, TProperty> Must<T, TProperty>(this IRuleBuilder<T, TProperty> builder, Func<TProperty, bool> predicate)
         => builder.AddSpecification(new PredicateSpecification<T, TProperty>(predicate));
     

@@ -27,12 +27,6 @@ internal class CollectionRuleBuilder<T, TElement> : ICollectionRuleBuilderInitia
         return this;
     }
 
-    public ICollectionRuleBuilderInitial<T, TElement> Include(IValidator<TElement> validator)
-    {
-        _collectionRule.ChildValidator = validator;
-        return this;
-    }
-
     public IRuleBuilderSettings<T, TElement> AddSpecification(ISpecification<T, TElement> specification)
     {
         _collectionRule.Specifications.Add(specification);

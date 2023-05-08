@@ -4,7 +4,7 @@ public class ValidationResult
 {
     public ValidationSettings Settings { get; }
     
-    public List<SpecificationFailure> Failures { get; } = new();
+    public List<ValidationFailure> Failures { get; } = new();
 
     public bool IsValid => Settings.OnlyInvalidOnErrorSeverity
         ? Failures.All(x => x.Severity != Severity.Error)

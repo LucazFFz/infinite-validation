@@ -11,7 +11,7 @@ var person = new Customer("Sven", "Svensson", 42, new List<Order>
 
 var result = validator.Validate(person, settings =>
 {
-    settings.ThrowExceptionOnInvalid = true;
+    settings.RuleSetsToValidate.Add("test");
 });
 
 Console.WriteLine(result.IsValid);

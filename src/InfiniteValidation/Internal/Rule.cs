@@ -6,9 +6,7 @@ namespace InfiniteValidation.Internal;
 internal class Rule<T, TProperty> : IPropertyRule<T, TProperty>, IValidatorRule<T>
 {
     public string PropertyName { get; set; }
-    
-    public IValidator<TProperty>? ChildValidator { get; set; } 
-    
+
     public Expression<Func<T, TProperty>> Expression { get; }
     
     public CascadeMode CascadeMode { get; set; }
@@ -16,21 +14,19 @@ internal class Rule<T, TProperty> : IPropertyRule<T, TProperty>, IValidatorRule<
     public List<ISpecification<T, TProperty>> Specifications { get; set; } = new();
     
     public Rule(Expression<Func<T, TProperty>> expression, CascadeMode cascadeMode, string propertyName)
-    { 
+    {
         CascadeMode = cascadeMode;
         Expression = expression;
         PropertyName = propertyName;
     }
     
-    public IEnumerable<SpecificationFailure> IsValid(ValidationContext<T> context)
+    public IEnumerable<ValidationFailure> IsValid(ValidationContext<T> context)
     {
-        var failures = new List<SpecificationFailure>();
+        var failures = new List<ValidationFailure>();
         var property = Expression.Compile()(context.InstanceToValidate);
 
-        if(ChildValidator != null) failures.AddRange(ChildValidator.Validate(property, context.Settings).Failures);
-        
         foreach (var specification in Specifications
-            .Where(specification => !specification.IsSatisfiedBy(context, property)))
+                     .Where(specification => !specification.IsSatisfiedBy(context, property)))
         {
             specification.MessageBuilder.AppendPropertyName(PropertyName).AppendAttemptedValue(property);
             failures.Add(ValidationFailureFactory.Create(specification, property));
