@@ -49,10 +49,11 @@ internal class CollectionRuleBuilder<T, TElement> : ICollectionRuleBuilderInitia
     
     public IRuleBuilderDecorator<T, TElement> Decorate(IDecorator<T, TElement> decorator)
     {
-        decorator.Specification = _collectionRule.Specifications.Last();
         _collectionRule.Specifications.ReplaceLast(decorator);
         return this;
     }
+    
+    public ISpecification<T, TElement> GetSpecificationToDecorate() =>  _collectionRule.Specifications.Last();
 
     internal IPropertyCollectionRule<T, TElement> Build() => _collectionRule;
 }

@@ -1,7 +1,6 @@
 ﻿namespace InfiniteValidation.Internal;
 
 internal class RuleBuilder<T, TProperty> : IRuleBuilderInitial<T, TProperty>, IRuleBuilderDecorator<T, TProperty>
-
 {
     private readonly IPropertyRule<T, TProperty> _rule;
 
@@ -38,10 +37,11 @@ internal class RuleBuilder<T, TProperty> : IRuleBuilderInitial<T, TProperty>, IR
     public IRuleBuilderDecorator<T, TProperty> Decorate(IDecorator<T, TProperty> decorator)
     {
         decorator.Guard(nameof(decorator));
-        decorator.Specification = _rule.Specifications.Last();
         _rule.Specifications.ReplaceLast(decorator);
         return this;
     }
+
+    public ISpecification<T, TProperty> GetSpecificationToDecorate() =>  _rule.Specifications.Last();
 
     internal IPropertyRule<T, TProperty> Build() => _rule;
 }

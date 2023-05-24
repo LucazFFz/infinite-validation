@@ -5,28 +5,23 @@ namespace InfiniteValidation;
 
 public abstract class Decorator<T, TProperty> : IDecorator<T, TProperty>
 {
-    // TODO: find a workaround so this does not need to have a setter, required by RuleBuilder
-    private ISpecification<T, TProperty> _specification = new DefaultSpecification<T, TProperty>();
+    public ISpecification<T, TProperty> Specification { get; }
 
-    public ISpecification<T, TProperty> Specification
+    public MessageBuilder MessageBuilder { get; } 
+
+    public Decorator(ISpecification<T, TProperty> specification)
     {
-        get => _specification;
-        set 
-        {
-            value.Guard(nameof(value));
-            _specification = value;
-            MessageBuilder = value.MessageBuilder;
-        }
+        specification.Guard(nameof(specification));
+        Specification = specification;
+        MessageBuilder = specification.MessageBuilder;
     }
 
-    public MessageBuilder MessageBuilder { get; private set; } = new();
-
     public virtual bool IsSatisfiedBy(ValidationContext<T> context, TProperty value) 
-        => _specification.IsSatisfiedBy(context, value);
+        => Specification.IsSatisfiedBy(context, value);
 
-    public virtual string GetName() => _specification.GetName();
+    public virtual string GetName() => Specification.GetName();
 
-    public virtual string GetMessageFormat() => _specification.GetMessageFormat();
+    public virtual string GetMessageFormat() => Specification.GetMessageFormat();
 
-    public virtual Severity GetSeverity() => _specification.GetSeverity();
+    public virtual Severity GetSeverity() => Specification.GetSeverity();
 }

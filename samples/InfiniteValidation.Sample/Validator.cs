@@ -9,7 +9,7 @@ public class CustomerValidator : Validator<Customer>
     {
         Ruleset(DefaultRulesetKey, validator =>
         {
-            validator.RuleFor(x => x.FirstName).Equal("Sven");
+            validator.RuleFor(x => x.FirstName).Equal("Hej");
         });
     }
 }

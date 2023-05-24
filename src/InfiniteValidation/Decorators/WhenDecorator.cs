@@ -6,7 +6,7 @@ public class WhenDecorator<T, TProperty> : Decorator<T, TProperty>
 {
     private readonly Func<T, bool> _condition;
 
-    public WhenDecorator(Func<T, bool> condition)
+    public WhenDecorator(ISpecification<T, TProperty> specification, Func<T, bool> condition) : base(specification)
     {
         condition.Guard(nameof(condition));
         _condition = condition;

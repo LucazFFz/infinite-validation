@@ -17,6 +17,8 @@ public interface IRuleBuilderInitial<T, TProperty> : IRuleBuilder<T, TProperty>
 public interface IRuleBuilderDecorator<T, TProperty> : IRuleBuilder<T, TProperty>
 {
     public IRuleBuilderDecorator<T, TProperty> Decorate(IDecorator<T, TProperty> decorator);
+    
+    public ISpecification<T, TProperty> GetSpecificationToDecorate();
 }
 
 public interface ICollectionRuleBuilderInitial<T, TElement> : IRuleBuilder<T, TElement>

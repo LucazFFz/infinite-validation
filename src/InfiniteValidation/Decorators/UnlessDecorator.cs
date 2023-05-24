@@ -6,7 +6,7 @@ public class UnlessDecorator<T, TProperty> : Decorator<T, TProperty>
 {
     private readonly Func<T, bool> _condition;
 
-    public UnlessDecorator(Func<T, bool> condition)
+    public UnlessDecorator(ISpecification<T, TProperty> specification,  Func<T, bool> condition) : base(specification)
     {
         condition.Guard(nameof(condition));
         _condition = condition;
