@@ -11,13 +11,13 @@ public class EqualSpecification<T, TProperty> : Specification<T, TProperty>
         _comparisonValue = comparisonValue;
         _comparer = comparer;
         
-        MessageBuilder.AppendArgument("ComparisonValue", comparisonValue);
+        MessageBuilder.Append("ComparisonValue", comparisonValue);
     }
 
     public override bool IsSatisfiedBy(ValidationContext<T> context, TProperty value) 
         => Compare(_comparisonValue, value); 
     
-    public override string GetSpecificationName() => "EqualSpecification";
+    public override string GetName() => "EqualSpecification";
     
     public override string GetMessageFormat() => "'{PropertyName}' must equal '{ComparisonValue}'.";
 

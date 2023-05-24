@@ -2,15 +2,19 @@
 
 public class ValidationFailure
 {
-    public string SpecificationName { get; internal set; } 
+    public string SpecificationName { get; } 
     
-    public string FailureMessage { get; internal set; } 
+    public string FailureMessage { get; } 
 
-    public object? AttemptedValue { get; internal set; }
+    public object? AttemptedValue { get; }
     
-    public Severity Severity { get; internal set; } 
+    public Severity Severity { get; } 
 
-    public ValidationFailure(string specificationName, string failureMessage, object? attemptedValue, Severity severity = Severity.Error)
+    public ValidationFailure(
+        string specificationName, 
+        string failureMessage, 
+        object? attemptedValue, 
+        Severity severity = Severity.Error)
     {
         SpecificationName = specificationName;
         FailureMessage = failureMessage;

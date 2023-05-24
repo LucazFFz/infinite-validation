@@ -2,11 +2,11 @@ using InfiniteValidation.Results;
 
 namespace InfiniteValidation;
 
-public interface IRuleSet<T>
+public interface IRuleset<T>
 {
-    public IEnumerable<ValidationFailure> IsValid(ValidationContext<T> context);
+    public IEnumerable<ValidationFailure> Validate(ValidationContext<T> context);
 
     public IEnumerable<IValidatorRule<T>> GetRules();
 
-    public string GetName();
+    public string GetKey();
 }

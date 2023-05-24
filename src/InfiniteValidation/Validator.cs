@@ -7,11 +7,57 @@ namespace InfiniteValidation;
 
 public abstract class Validator<T> : IValidator<T>
 {
-    public const string DefaultRuleSetName = "Default";
+    public const string DefaultRulesetKey = "Default";
     
-    private readonly List<RuleSetBuilder<T>> _ruleSetBuilders = new();
+    private readonly List<IRuleset<T>> _rulesets = new();
 
     public ValidatorConfiguration Configuration { get; } = new();
+
+    public void Ruleset(string key, Action<IInlineValidator<T>> action)
+    {
+        var validator = new InlineValidator<T>();
+        action.Invoke(validator);
+
+        var rules = new List<IValidatorRule<T>>();
+        validator.GetRulesets().ForEach(x => rules.AddRange(x.GetRules()));
+        
+        _rulesets.Add(new Ruleset<T>(key, rules, Configuration.ClassLevelDefaultCascadeMode));
+    }
+
+    public void Include(Validator<T> validator) => validator.GetRulesets().ForEach(x => _rulesets.Add(x));
+    
+    public IRuleBuilderInitial<T, TProperty> RuleFor<TProperty>(Expression<Func<T, TProperty>> expression)
+    {
+        var rule = new Rule<T, TProperty>(
+            expression, 
+            Configuration.RuleLevelDefaultCascadeMode, 
+            GetPropertyName(expression));
+        
+        _rulesets.Add(new Ruleset<T>(
+            DefaultRulesetKey, 
+            new List<IValidatorRule<T>> { rule }, 
+            Configuration.ClassLevelDefaultCascadeMode));
+        
+        return new RuleBuilder<T, TProperty>(rule);
+    }
+    
+    public ICollectionRuleBuilderInitial<T, TElement> RuleForEach<TElement>(
+        Expression<Func<T, IEnumerable<TElement>>> expression)
+    {
+        var rule = new CollectionRule<T, TElement>(
+            expression, 
+            Configuration.RuleLevelDefaultCascadeMode, 
+            GetPropertyName(expression));
+        
+        _rulesets.Add(new Ruleset<T>(
+            DefaultRulesetKey, 
+            new List<IValidatorRule<T>> { rule }, 
+            Configuration.ClassLevelDefaultCascadeMode));
+        
+        return new CollectionRuleBuilder<T, TElement>(rule);
+    }
+
+    public List<IRuleset<T>> GetRulesets() => _rulesets;
 
     public ValidationResult Validate(T instance, ValidationSettings settings)
         => Validate(new ValidationContext<T>(instance, settings));
@@ -26,63 +72,35 @@ public abstract class Validator<T> : IValidator<T>
         return Validate(new ValidationContext<T>(instance, validationSettings));
     }
 
-    public List<IRuleSet<T>> GetRuleSets()
-    {
-        var ruleSets = new List<IRuleSet<T>>();
-        _ruleSetBuilders.ForEach(x => ruleSets.Add(x.Build()));
-        return ruleSets;
-    }
-
-    public IRuleBuilderInitial<T, TProperty> RuleFor<TProperty>(Expression<Func<T, TProperty>> expression)
-    {
-        var rule = new Rule<T, TProperty>(expression, Configuration.RuleLevelDefaultCascadeMode, GetPropertyName(expression));
-        var builder = new RuleBuilder<T, TProperty>(rule);
-        RuleSet(DefaultRuleSetName, new List<IValidatorRule<T>> { rule });
-        return builder;
-    }
-    
-    public ICollectionRuleBuilderInitial<T, TElement> RuleForEach<TElement>(Expression<Func<T, IEnumerable<TElement>>> expression)
-    {
-        var rule = new CollectionRule<T, TElement>(expression, Configuration.RuleLevelDefaultCascadeMode, GetPropertyName(expression));
-        var builder = new CollectionRuleBuilder<T, TElement>(rule);
-        RuleSet(DefaultRuleSetName, new List<IValidatorRule<T>> { rule });
-        return builder;
-    }
-
-    public IRuleSetBuilder<T> RuleSet(string name, IEnumerable<IValidatorRule<T>> rules)
-    {
-        rules.Guard(nameof(rules));
-        return RuleSet(new RuleSet<T>(name, rules));
-    }
-    
     private ValidationResult Validate(ValidationContext<T> context)
     {
         var result = new ValidationResult(context.Settings);
 
-        foreach (var ruleSet in _ruleSetBuilders.Select(ruleSetBuilder => ruleSetBuilder.Build()))
+        foreach (var ruleset in _rulesets)
         {
-            if (context.Settings.RuleSetsToValidate.Contains(ruleSet.GetName()) || ruleSet.GetName() == DefaultRuleSetName) 
-                result.Failures.AddRange(ruleSet.IsValid(context));
-            if (result.Failures.Any() && Configuration.ClassLevelDefaultCascadeMode == CascadeMode.Stop) break;
+            if (context.Settings.ShouldValidateRuleset(ruleset)) 
+                result.Failures.AddRange(ruleset.Validate(context));
+            
+            if (result.UnconditionalIsValid && Configuration.ClassLevelDefaultCascadeMode == CascadeMode.Stop) break;
         }
         
-        if (context.Settings.ThrowExceptionOnInvalid && !result.IsValid) RaiseException(result);
+        if (!result.IsValid && context.Settings.ThrowExceptionOnInvalid) RaiseException(result);
         return result;
     }
-    
+
     private static void RaiseException(ValidationResult result)
         => throw new ValidationException(result.Failures);
 
     private static string GetPropertyName<TProperty>(Expression<Func<T, TProperty>> expression)
     {
-        var action = (MemberExpression) expression.Body;
-        return action.Member.Name;
-    }
-    
-    private IRuleSetBuilder<T> RuleSet(IRuleSet<T> ruleSet)
-    {
-        var builder = new RuleSetBuilder<T>(ruleSet);
-        _ruleSetBuilders.Add(builder);
-        return builder;
+        try
+        {
+            var action = (MemberExpression)expression.Body;
+            return action.Member.Name;
+        }
+        catch (Exception e)
+        {
+            return "Property";
+        }
     }
 }

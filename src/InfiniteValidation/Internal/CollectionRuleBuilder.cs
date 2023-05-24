@@ -1,6 +1,6 @@
 namespace InfiniteValidation.Internal;
 
-internal class CollectionRuleBuilder<T, TElement> : ICollectionRuleBuilderInitial<T, TElement>, IRuleBuilderSettings<T, TElement>
+internal class CollectionRuleBuilder<T, TElement> : ICollectionRuleBuilderInitial<T, TElement>, IRuleBuilderDecorator<T, TElement>
 {
     private readonly IPropertyCollectionRule<T, TElement> _collectionRule;
 
@@ -9,13 +9,13 @@ internal class CollectionRuleBuilder<T, TElement> : ICollectionRuleBuilderInitia
         _collectionRule = collectionRule;
     }
     
-    public ICollectionRuleBuilderInitial<T, TElement> PropertyName(string propertyName)
+    public ICollectionRuleBuilderInitial<T, TElement> OverridePropertyName(string name)
     {
-        _collectionRule.PropertyName = propertyName;
+        _collectionRule.PropertyName = name;
         return this;
     }
 
-    public ICollectionRuleBuilderInitial<T, TElement> CascadeMode(CascadeMode mode)
+    public ICollectionRuleBuilderInitial<T, TElement> Cascade(CascadeMode mode)
     {
         _collectionRule.CascadeMode = mode;
         return this;
@@ -27,13 +27,27 @@ internal class CollectionRuleBuilder<T, TElement> : ICollectionRuleBuilderInitia
         return this;
     }
 
-    public IRuleBuilderSettings<T, TElement> AddSpecification(ISpecification<T, TElement> specification)
+    public ICollectionRuleBuilderInitial<T, TElement> Include(IValidator<TElement> validator)
+    {
+        _collectionRule.Rulesets.AddRange(validator.GetRulesets());
+        return this;
+    }
+
+    public ICollectionRuleBuilderInitial<T, TElement> Include(Action<IInlineValidator<TElement>> action)
+    {
+        var inlineValidator = new InlineValidator<TElement>();
+        action.Invoke(inlineValidator);
+        _collectionRule.Rulesets.AddRange(inlineValidator.GetRulesets());
+        return this;
+    }
+    
+    public IRuleBuilderDecorator<T, TElement> Specify(ISpecification<T, TElement> specification)
     {
         _collectionRule.Specifications.Add(specification);
         return this;
     }
     
-    public IRuleBuilderSettings<T, TElement> Decorate(IDecorator<T, TElement> decorator)
+    public IRuleBuilderDecorator<T, TElement> Decorate(IDecorator<T, TElement> decorator)
     {
         decorator.Specification = _collectionRule.Specifications.Last();
         _collectionRule.Specifications.ReplaceLast(decorator);

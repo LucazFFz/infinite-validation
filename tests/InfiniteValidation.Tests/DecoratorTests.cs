@@ -62,7 +62,7 @@ public class DecoratorTests
         {
             Specification = new NullSpecification<Customer, string>()
         };
-        sut.RuleFor(x => x.FirstName).AddSpecification(decorator);
+        sut.RuleFor(x => x.FirstName).Specify(decorator);
 
         decorator.Specification = new EqualSpecification<Customer, string>("Foo");
 

@@ -1,4 +1,5 @@
-﻿using InfiniteValidation.RuleSetDecorators;
+﻿using InfiniteValidation.Decorators;
+using InfiniteValidation.Specifications;
 
 namespace InfiniteValidation.Sample;
 
@@ -6,10 +7,9 @@ public class CustomerValidator : Validator<Customer>
 {
     public CustomerValidator()
     {
-        this.RuleSet(DefaultRuleSetName, validator =>
+        Ruleset(DefaultRulesetKey, validator =>
         {
-            validator.RuleFor(x => x.Age).Equal(10);
-            validator.RuleFor(x => x.FirstName).Equal("hejsan");
+            validator.RuleFor(x => x.FirstName).Equal("Sven");
         });
     }
 }
@@ -28,9 +28,7 @@ public class PersonValidator : Validator<Customer>
 {
     public PersonValidator()
     {
-        this.RuleSet(DefaultRuleSetName, validator =>
-        {
-
-        });
+        RuleFor(x => x.Age).Equal(10);
+        RuleFor(x => x.FirstName).Equal("hej");
     }
 }

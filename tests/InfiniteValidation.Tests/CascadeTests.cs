@@ -1,3 +1,4 @@
+using InfiniteValidation.Extensions;
 using InfiniteValidation.Specifications;
 using Xunit;
 
@@ -6,45 +7,10 @@ namespace InfiniteValidation.UnitTests;
 public class CascadeTests
 {
     [Fact]
-    public void Only_first_failure()
-    {
-        var sut = new TestValidator();
-        sut.RuleFor(x => x.FirstName).CascadeMode(CascadeMode.Stop).Equal("foo").Must(x => x.Length >= 10);
-
-        var name = sut.Validate(new Customer {FirstName = "bar"}).Failures.First().SpecificationName;
-
-        Assert.Equal(new EqualSpecification<Customer, string>("foo").GetSpecificationName(), name);
-    }
-    
-    [Fact]
-    public void Only_first_failure_collection()
-    {
-        var sut = new TestValidator();
-        sut.RuleForEach(x => x.Orders).CascadeMode(CascadeMode.Stop).Equal(null).Must(x => x.ProductName.Length >= 10);
-
-        var name = sut.Validate(new Customer {Orders = new List<Order>
-        {
-            new Order
-            {
-                ProductName = "bar",
-                Company = DeliveryCompany.UPS
-            },
-            
-            new Order
-            {
-                ProductName = "foo",
-                Company = DeliveryCompany.DHL
-            }
-        }}).Failures.First().SpecificationName;
-
-        Assert.Equal(new EqualSpecification<Customer, string>("foo").GetSpecificationName(), name);
-    }
-    
-    [Fact]
     public void Only_one_failure_when_cascade_is_set_to_stop()
     {
         var sut = new TestValidator();
-        sut.RuleFor(x => x.FirstName).CascadeMode(CascadeMode.Stop).Equal("foo").Equal("foobar");
+        sut.RuleFor(x => x.FirstName).Cascade(CascadeMode.Stop).Equal("foo").Equal("foobar");
         
         var amount = sut.Validate(new Customer {FirstName = "bar"}).Failures.Count;
         
@@ -52,27 +18,27 @@ public class CascadeTests
     }
     
     [Fact]
-    public void Only_one_failure_when_cascade_is_set_to_stop_collection_variant()
+    public void Only_check_first_specification_but_still_for_every_element_when_cascade_is_set_to_stop_collection_variant()
     {
         var sut = new TestValidator();
-        sut.RuleForEach(x => x.Orders).CascadeMode(CascadeMode.Stop).Must(x => x.ProductName == "foo").Must(x => x.Company == DeliveryCompany.UPS);
+        sut.RuleForEach(x => x.Orders).Cascade(CascadeMode.Stop).Must(x => x.ProductName == "foo").Must(x => x.Company == DeliveryCompany.UPS);
         
         var amount = sut.Validate(new Customer {Orders = new List<Order>
         {
             new Order
             {
                 ProductName = "bar",
-                Company = DeliveryCompany.UPS
+                Company = DeliveryCompany.DHL
             },
             
             new Order
             {
-                ProductName = "foo",
+                ProductName = "foobar",
                 Company = DeliveryCompany.DHL
             }
         }}).Failures.Count;
         
-        Assert.Equal(1, amount);
+        Assert.Equal(2, amount);
     }
     
     [Fact]
@@ -80,13 +46,19 @@ public class CascadeTests
     {
         var sut = new TestValidator();
         sut.RuleForEach(x => x.Orders).Must(x => x.ProductName == "foo").Must(x => x.Company == DeliveryCompany.UPS);
-        
+
         var amount = sut.Validate(new Customer {Orders = new List<Order>
         {
             new Order
             {
                 ProductName = "bar",
-                Company = DeliveryCompany.UPS
+                Company = DeliveryCompany.DHL
+            },
+            
+            new Order
+            {
+                ProductName = "foobar",
+                Company = DeliveryCompany.DHL
             },
             
             new Order
@@ -96,7 +68,7 @@ public class CascadeTests
             }
         }}).Failures.Count;
         
-        Assert.Equal(2, amount);
+        Assert.Equal(5, amount);
     }
     
     [Fact]
@@ -111,33 +83,35 @@ public class CascadeTests
         };
         sut.RuleForEach(x => x.Orders).Must(x => x.ProductName == "foo").Must(x => x.Company == DeliveryCompany.UPS);
         
+        
+        
         var amount = sut.Validate(new Customer {Orders = new List<Order>
         {
             new Order
             {
                 ProductName = "bar",
-                Company = DeliveryCompany.UPS
+                Company = DeliveryCompany.DHL
             },
             
             new Order
             {
-                ProductName = "foo",
+                ProductName = "foobar",
                 Company = DeliveryCompany.DHL
             }
         }}).Failures.Count;
         
-        Assert.Equal(1, amount);
+        Assert.Equal(2, amount);
     }
-    
+
     [Fact]
     public void All_failures_when_cascade_is_set_to_continue()
     {
         var sut = new TestValidator();
-        sut.RuleFor(x => x.FirstName).CascadeMode(CascadeMode.Continue)
+        sut.RuleFor(x => x.FirstName).Cascade(CascadeMode.Continue)
             .Equal("foo")
             .Equal("foobar")
             .Must(x => x.Length >= 10);
-        
+
         var amount = sut.Validate(new Customer {FirstName = "bar"}).Failures.Count;
         
         Assert.Equal(3, amount);
@@ -182,12 +156,12 @@ public class CascadeTests
                 new Order
                 {
                     ProductName = "bar",
-                    Company = DeliveryCompany.UPS
+                    Company = DeliveryCompany.DHL
                 },
                 
                 new Order
                 {
-                    ProductName = "foo",
+                    ProductName = "foobar",
                     Company = DeliveryCompany.DHL
                 }
             }
@@ -218,17 +192,107 @@ public class CascadeTests
                 new Order
                 {
                     ProductName = "bar",
-                    Company = DeliveryCompany.UPS
+                    Company = DeliveryCompany.DHL
                 },
                 
                 new Order
                 {
-                    ProductName = "foo",
+                    ProductName = "foobar",
                     Company = DeliveryCompany.DHL
                 }
             }
         }).Failures.Count;
         
-        Assert.Equal(3, amount);
+        Assert.Equal(4, amount);
     }
+
+    [Fact]
+    public void Only_validate_first_rule_in_first_used_ruleset_when_ClassLevelCascadeMode_set_to_stop()
+    {
+        var customer = new Customer
+        {
+            FirstName = "foobar",
+            LastName = "foobar"
+        };
+        
+        var sut = new TestValidator
+        {
+            Configuration =
+            {
+                ClassLevelDefaultCascadeMode = CascadeMode.Stop,
+            }
+        };
+
+        sut.Ruleset("notIncluded", validator =>
+        {
+            validator.RuleFor(x => x.LastName).Equal("foo");
+        });
+        
+        sut.Ruleset("included", validator =>
+        {
+            validator.RuleFor(x => x.FirstName).Equal("foo").Must(x => x.Length == 3);
+            validator.RuleFor(x => x.LastName).Equal("foo");
+        });
+
+        sut.Ruleset("included", validator =>
+        {
+            validator.RuleFor(x => x.FirstName).Equal("foo").Must(x => x.Length == 3);
+            validator.RuleFor(x => x.LastName).Equal("foo");
+        });
+        
+        var amount =  sut.Validate(customer, settings =>
+        {
+            settings.RuleSetsToValidate.Add("included");
+        }).Failures.Count;
+        
+        Assert.Equal(2, amount);
+    }
+
+    [Fact]
+    public void All_failures_from_different_rulesets_when_cascade_is_set_to_continue()
+    {
+        var customer = new Customer
+        {
+            FirstName = "foobar",
+            LastName = "foobar",
+            Orders = new List<Order> 
+            {
+                new Order
+                {
+                    ProductName = "bar",
+                    Company = DeliveryCompany.DHL
+                },
+                
+                new Order
+                {
+                    ProductName = "foobar",
+                    Company = DeliveryCompany.DHL
+                }
+            }
+        };
+
+        var sut = new TestValidator();
+        
+        sut.Ruleset("included", validator =>
+        {
+            validator.RuleFor(x => x.FirstName).Equal("foo").Must(x => x.Length == 3);
+            validator.RuleFor(x => x.LastName).Equal("foo");
+        });
+
+        sut.Ruleset("included", validator =>
+        {
+            validator.RuleFor(x => x.FirstName).Equal("foo").Must(x => x.Length == 3);
+            validator.RuleFor(x => x.LastName).Equal("foo");
+            validator.RuleForEach(x => x.Orders).Must(x => x.ProductName == "foo");
+        });
+        
+        var amount =  sut.Validate(customer, settings =>
+        {
+            settings.RuleSetsToValidate.Add("included");
+        }).Failures.Count;
+        
+        Assert.Equal(8, amount);
+    }
+    
+    
 }

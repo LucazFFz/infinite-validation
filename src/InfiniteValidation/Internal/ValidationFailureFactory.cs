@@ -4,14 +4,13 @@ namespace InfiniteValidation.Internal;
 
 internal static class ValidationFailureFactory
 {
-    public static ValidationFailure Create<T, TProperty>(ISpecification<T, TProperty> specification, TProperty value)
+    public static ValidationFailure Create<T, TProperty>(ISpecification<T, TProperty> specification, TProperty property, string propertyName)
     {
+        specification.MessageBuilder.AppendPropertyName(propertyName).AppendAttemptedValue(property);
+        
         return new ValidationFailure(
-            specification.GetSpecificationName(), 
-            specification.MessageBuilder.BuildMessage(specification.GetMessageFormat()), 
-            value)
-        {
-            Severity = specification.GetSeverity()
-        };
+            specification.GetName(),
+            specification.MessageBuilder.Build(specification.GetMessageFormat()),
+            property, specification.GetSeverity());
     }
 }

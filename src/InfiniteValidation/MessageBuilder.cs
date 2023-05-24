@@ -11,7 +11,7 @@ public partial class MessageBuilder
     
     private readonly Dictionary<string, object?> _placeholderValues = new(2);
     
-    public MessageBuilder AppendArgument(string name, object? value)
+    public MessageBuilder Append(string name, object? value)
     {
         _placeholderValues[name] = value;
         return this;
@@ -19,23 +19,23 @@ public partial class MessageBuilder
 
     public MessageBuilder AppendPropertyName(string propertyName)
     {
-        AppendArgument(PropertyName, propertyName);
+        Append(PropertyName, propertyName);
         return this;
     }
     
     public MessageBuilder AppendAttemptedValue(object? value)
     {
-        AppendArgument(PropertyValue, value);
+        Append(PropertyValue, value);
         return this;
     }
 
-    public virtual string BuildMessage(string template)
+    public virtual string Build(string template)
     {
         template.Guard(nameof(template));
-        return KeyRegex().Replace(template, ProcessMatchedValue!);
+        return KeyRegex().Replace(template, MatchEvaluator!);
     }
 
-    private string? ProcessMatchedValue(Match match)
+    private string? MatchEvaluator(Match match)
     {
         var key = match.Groups[1].Value;
         var success = _placeholderValues.TryGetValue(key, out var value);

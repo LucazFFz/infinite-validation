@@ -2,32 +2,35 @@ using InfiniteValidation.Results;
 
 namespace InfiniteValidation.Internal;
 
-internal class RuleSet<T> : IRuleSet<T>
+internal class Ruleset<T> : IRuleset<T>
 {
-    private readonly string _name;
+    private readonly string _key;
 
     private readonly IEnumerable<IValidatorRule<T>> _rules;
 
-    public RuleSet(string name, IEnumerable<IValidatorRule<T>> rules)
+    private readonly CascadeMode _cascadeMode;
+
+    public Ruleset(string key, IEnumerable<IValidatorRule<T>> rules, CascadeMode cascadeMode)
     {
+        _key = key;
         _rules = rules;
-        _name = name;
+        _cascadeMode = cascadeMode;
     }
     
-    public IEnumerable<ValidationFailure> IsValid(ValidationContext<T> context)
+    public IEnumerable<ValidationFailure> Validate(ValidationContext<T> context)
     {
         var failures = new List<ValidationFailure>();
 
         foreach (var rule in _rules)
         {
-            failures.AddRange(rule.IsValid(context));
-            //if (CascadeMode == CascadeMode.Stop) break;
+            failures.AddRange(rule.Validate(context));
+            if(_cascadeMode == CascadeMode.Stop) break;
         }
         
         return failures;
     }
     
-    public string GetName() => _name;
+    public string GetKey() => _key;
 
     public IEnumerable<IValidatorRule<T>> GetRules() => _rules;
 }

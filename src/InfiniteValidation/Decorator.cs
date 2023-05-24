@@ -24,7 +24,7 @@ public abstract class Decorator<T, TProperty> : IDecorator<T, TProperty>
     public virtual bool IsSatisfiedBy(ValidationContext<T> context, TProperty value) 
         => _specification.IsSatisfiedBy(context, value);
 
-    public virtual string GetSpecificationName() => _specification.GetSpecificationName();
+    public virtual string GetName() => _specification.GetName();
 
     public virtual string GetMessageFormat() => _specification.GetMessageFormat();
 

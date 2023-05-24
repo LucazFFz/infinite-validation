@@ -6,9 +6,11 @@ public class ValidationResult
     
     public List<ValidationFailure> Failures { get; } = new();
 
+    public bool UnconditionalIsValid => Failures.Any();
+
     public bool IsValid => Settings.OnlyInvalidOnErrorSeverity
         ? Failures.All(x => x.Severity != Severity.Error)
-        : Failures.Count == 0;
+        : Failures.Any();
 
     public ValidationResult(ValidationSettings settings)
     {

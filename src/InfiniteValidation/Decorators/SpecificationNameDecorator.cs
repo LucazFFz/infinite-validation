@@ -9,5 +9,5 @@ public class SpecificationNameDecorator<T, TProperty> : Decorator<T, TProperty>
         _specificationName = specificationName;
     }
 
-    public override string GetSpecificationName() => _specificationName;
+    public override string GetName() => _specificationName;
 }

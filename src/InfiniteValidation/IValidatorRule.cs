@@ -4,5 +4,5 @@ namespace InfiniteValidation;
 
 public interface IValidatorRule<T>
 { 
-    public IEnumerable<ValidationFailure> IsValid(ValidationContext<T> context);
+    public IEnumerable<ValidationFailure> Validate(ValidationContext<T> context);
 }
