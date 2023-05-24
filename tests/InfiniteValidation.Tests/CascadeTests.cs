@@ -242,7 +242,7 @@ public class CascadeTests
         
         var amount =  sut.Validate(customer, settings =>
         {
-            settings.RuleSetsToValidate.Add("included");
+            settings.RulesetsToValidate.Add("included");
         }).Failures.Count;
         
         Assert.Equal(2, amount);
@@ -288,7 +288,7 @@ public class CascadeTests
         
         var amount =  sut.Validate(customer, settings =>
         {
-            settings.RuleSetsToValidate.Add("included");
+            settings.RulesetsToValidate.Add("included");
         }).Failures.Count;
         
         Assert.Equal(8, amount);

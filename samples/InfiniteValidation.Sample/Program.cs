@@ -11,7 +11,7 @@ var person = new Customer("Sven", "Svensson", 43, new List<Order>
 
 var result = validator.Validate(person, settings =>
 {
-    settings.RuleSetsToValidate.Add("test");
+    settings.RulesetsToValidate.Add("test");
 });
 
 Console.WriteLine(result.IsValid);
