@@ -51,7 +51,7 @@ internal class Rule<T, TProperty> : IValidatorRule<T>, IPropertyRule<T, TPropert
         var failures = new List<ValidationFailure>();
         var rules = new List<IValidatorRule<TProperty>>();
         
-        foreach (var ruleset in Rulesets.Where(ruleset => context.Settings.ShouldValidateRuleset(ruleset)))
+        foreach (var ruleset in Rulesets)
             rules.AddRange(ruleset.GetRules());
         
         rules.ForEach(rule => failures.AddRange(rule.Validate(context)));

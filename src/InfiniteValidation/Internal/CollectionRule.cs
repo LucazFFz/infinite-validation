@@ -65,7 +65,7 @@ internal class CollectionRule<T, TElement> : IValidatorRule<T>, IPropertyCollect
         var failures = new List<ValidationFailure>();
         var rules = new List<IValidatorRule<TElement>>();
         
-        foreach (var ruleset in Rulesets.Where(ruleset => context.Settings.ShouldValidateRuleset(ruleset)))
+        foreach (var ruleset in Rulesets)
             rules.AddRange(ruleset.GetRules());
         
         rules.ForEach(rule => failures.AddRange(rule.Validate(context)));

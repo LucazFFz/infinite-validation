@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using InfiniteValidation.Exceptions;
 using InfiniteValidation.Internal;
 using ValidationResult = InfiniteValidation.Results.ValidationResult;
@@ -24,7 +25,11 @@ public abstract class Validator<T> : IValidator<T>
         _rulesets.Add(new Ruleset<T>(key, rules, Configuration.ClassLevelDefaultCascadeMode));
     }
 
-    public void Include(Validator<T> validator) => validator.GetRulesets().ForEach(x => _rulesets.Add(x));
+    public void Include(Validator<T> validator)
+    {
+        validator.Guard(nameof(validator));
+        validator.GetRulesets().ForEach(x => _rulesets.Add(x));
+    }
     
     public IRuleBuilderInitial<T, TProperty> RuleFor<TProperty>(Expression<Func<T, TProperty>> expression)
     {

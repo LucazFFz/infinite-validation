@@ -29,12 +29,14 @@ internal class CollectionRuleBuilder<T, TElement> : ICollectionRuleBuilderInitia
 
     public ICollectionRuleBuilderInitial<T, TElement> Include(IValidator<TElement> validator)
     {
+        validator.Guard(nameof(validator));
         _collectionRule.Rulesets.AddRange(validator.GetRulesets());
         return this;
     }
 
     public ICollectionRuleBuilderInitial<T, TElement> Include(Action<IInlineValidator<TElement>> action)
     {
+        action.Guard(nameof(action));
         var inlineValidator = new InlineValidator<TElement>();
         action.Invoke(inlineValidator);
         _collectionRule.Rulesets.AddRange(inlineValidator.GetRulesets());
