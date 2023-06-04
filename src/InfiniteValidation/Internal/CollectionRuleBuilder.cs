@@ -30,7 +30,8 @@ internal class CollectionRuleBuilder<T, TElement> : ICollectionRuleBuilderInitia
     public ICollectionRuleBuilderInitial<T, TElement> Include(IValidator<TElement> validator)
     {
         validator.Guard(nameof(validator));
-        _collectionRule.Rulesets.AddRange(validator.GetRulesets());
+        var rules = validator.GetRulesets().SelectMany(ruleset => ruleset.GetRules()).ToList();
+        _collectionRule.Rules.AddRange(rules);
         return this;
     }
 
@@ -39,7 +40,7 @@ internal class CollectionRuleBuilder<T, TElement> : ICollectionRuleBuilderInitia
         action.Guard(nameof(action));
         var inlineValidator = new InlineValidator<TElement>();
         action.Invoke(inlineValidator);
-        _collectionRule.Rulesets.AddRange(inlineValidator.GetRulesets());
+        Include(inlineValidator);
         return this;
     }
     

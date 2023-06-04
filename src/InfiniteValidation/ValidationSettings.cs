@@ -7,8 +7,4 @@ public class ValidationSettings
     public bool OnlyInvalidOnErrorSeverity { get; set; } = true;
 
     public List<string> RulesetsToValidate { get; } = new();
-
-    internal bool ShouldValidateRuleset<T>(IRuleset<T> ruleset)
-        => RulesetsToValidate.Contains(ruleset.GetKey()) ||
-           ruleset.GetKey() == Validator<dynamic>.DefaultRulesetKey;
 }

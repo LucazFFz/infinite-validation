@@ -13,7 +13,7 @@ internal class CollectionRule<T, TElement> : IValidatorRule<T>, IPropertyCollect
     
     public CascadeMode CascadeMode { get; set; }
     
-    public List<IRuleset<TElement>> Rulesets { get; } = new();
+    public List<IValidatorRule<TElement>> Rules { get; } = new();
     
     public List<ISpecification<T, TElement>> Specifications { get; set; } = new();
     
@@ -39,7 +39,7 @@ internal class CollectionRule<T, TElement> : IValidatorRule<T>, IPropertyCollect
     {
         var failures = new List<ValidationFailure>();
         
-        failures.AddRange(ValidateElementAgainstRulesets(new ValidationContext<TElement>(property, context.Settings)));
+        failures.AddRange(ValidateElementAgainstRules(new ValidationContext<TElement>(property, context.Settings)));
         failures.AddRange(ValidateElementAgainstSpecifications(context, property));
         
         return failures;
@@ -60,16 +60,10 @@ internal class CollectionRule<T, TElement> : IValidatorRule<T>, IPropertyCollect
         return failures;
     }
     
-    private IEnumerable<ValidationFailure> ValidateElementAgainstRulesets(ValidationContext<TElement> context)
+    private IEnumerable<ValidationFailure> ValidateElementAgainstRules(ValidationContext<TElement> context)
     {
         var failures = new List<ValidationFailure>();
-        var rules = new List<IValidatorRule<TElement>>();
-        
-        foreach (var ruleset in Rulesets)
-            rules.AddRange(ruleset.GetRules());
-        
-        rules.ForEach(rule => failures.AddRange(rule.Validate(context)));
-        
+        Rules.ForEach(rule => failures.AddRange(rule.Validate(context)));
         return failures;
     }
 }

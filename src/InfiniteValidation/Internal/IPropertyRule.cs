@@ -11,7 +11,7 @@ internal interface IPropertyRule<T, TProperty>
 
     public List<ISpecification<T, TProperty>> Specifications { get; }
 
-    public List<IRuleset<TProperty>> Rulesets { get; }
+    public List<IValidatorRule<TProperty>> Rules { get; }
     
     public IEnumerable<ValidationFailure> Validate(ValidationContext<T> context);
 }

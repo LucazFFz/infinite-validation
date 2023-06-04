@@ -12,8 +12,8 @@ internal class Rule<T, TProperty> : IValidatorRule<T>, IPropertyRule<T, TPropert
     public CascadeMode CascadeMode { get; set; }
 
     public List<ISpecification<T, TProperty>> Specifications { get; set; } = new();
-    
-    public List<IRuleset<TProperty>> Rulesets { get; } = new();
+
+    public List<IValidatorRule<TProperty>> Rules { get; } = new();
     
     public Rule(Expression<Func<T, TProperty>> expression, CascadeMode cascadeMode, string propertyName)
     {
@@ -28,7 +28,7 @@ internal class Rule<T, TProperty> : IValidatorRule<T>, IPropertyRule<T, TPropert
         var property = _expression.Compile()(context.InstanceToValidate);
         
         failures.AddRange(ValidatePropertyAgainstSpecifications(context, property));
-        failures.AddRange(ValidatePropertyAgainstRulesets(new ValidationContext<TProperty>(property, context.Settings)));
+        failures.AddRange(ValidatePropertyAgainstRules(new ValidationContext<TProperty>(property, context.Settings)));
          
         return failures;
     }
@@ -46,16 +46,10 @@ internal class Rule<T, TProperty> : IValidatorRule<T>, IPropertyRule<T, TPropert
         return failures;
     }
     
-    private IEnumerable<ValidationFailure> ValidatePropertyAgainstRulesets(ValidationContext<TProperty> context)
+    private IEnumerable<ValidationFailure> ValidatePropertyAgainstRules(ValidationContext<TProperty> context)
     {
         var failures = new List<ValidationFailure>();
-        var rules = new List<IValidatorRule<TProperty>>();
-        
-        foreach (var ruleset in Rulesets)
-            rules.AddRange(ruleset.GetRules());
-        
-        rules.ForEach(rule => failures.AddRange(rule.Validate(context)));
-        
+        Rules.ForEach(rule => failures.AddRange(rule.Validate(context)));
         return failures;
     }
 }

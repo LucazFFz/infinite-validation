@@ -24,7 +24,8 @@ internal class RuleBuilder<T, TProperty> : IRuleBuilderInitial<T, TProperty>, IR
     public IRuleBuilderInitial<T, TProperty> Include(IValidator<TProperty> validator)
     {
         validator.Guard(nameof(validator));
-        _rule.Rulesets.AddRange(validator.GetRulesets());
+        var rules = validator.GetRulesets().SelectMany(ruleset => ruleset.GetRules()).ToList();
+        _rule.Rules.AddRange(rules);
         return this;
     }
 

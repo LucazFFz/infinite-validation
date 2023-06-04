@@ -8,5 +8,5 @@ public interface IRuleset<T>
 
     public IEnumerable<IValidatorRule<T>> GetRules();
 
-    public string GetKey();
+    public Func<ValidationContext<T>, bool> GetCondition();
 }

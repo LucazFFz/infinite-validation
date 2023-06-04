@@ -16,13 +16,20 @@ public abstract class Validator<T> : IValidator<T>
 
     public void Ruleset(string key, Action<IInlineValidator<T>> action)
     {
+        var condition = new Func<ValidationContext<T>, bool>(context =>
+            context.Settings.RulesetsToValidate.Contains(key) || key == "Default");
+        Ruleset(condition, action);
+    }
+
+    public void Ruleset(Func<ValidationContext<T>, bool> condition, Action<IInlineValidator<T>> action)
+    {
         var validator = new InlineValidator<T>();
         action.Invoke(validator);
 
         var rules = new List<IValidatorRule<T>>();
         validator.GetRulesets().ForEach(x => rules.AddRange(x.GetRules()));
         
-        _rulesets.Add(new Ruleset<T>(key, rules, Configuration.ClassLevelDefaultCascadeMode));
+        _rulesets.Add(new Ruleset<T>(condition, rules, Configuration.ClassLevelDefaultCascadeMode));
     }
 
     public void Include(Validator<T> validator)
@@ -39,7 +46,7 @@ public abstract class Validator<T> : IValidator<T>
             GetPropertyName(expression));
         
         _rulesets.Add(new Ruleset<T>(
-            DefaultRulesetKey, 
+            _ => true, 
             new List<IValidatorRule<T>> { rule }, 
             Configuration.ClassLevelDefaultCascadeMode));
         
@@ -55,7 +62,7 @@ public abstract class Validator<T> : IValidator<T>
             GetPropertyName(expression));
         
         _rulesets.Add(new Ruleset<T>(
-            DefaultRulesetKey, 
+            _ => true, 
             new List<IValidatorRule<T>> { rule }, 
             Configuration.ClassLevelDefaultCascadeMode));
         
@@ -83,7 +90,7 @@ public abstract class Validator<T> : IValidator<T>
 
         foreach (var ruleset in _rulesets)
         {
-            if (context.Settings.ShouldValidateRuleset(ruleset)) 
+            if (ruleset.GetCondition().Invoke(context)) 
                 result.Failures.AddRange(ruleset.Validate(context));
             
             if (result.UnconditionalIsValid && Configuration.ClassLevelDefaultCascadeMode == CascadeMode.Stop) break;
