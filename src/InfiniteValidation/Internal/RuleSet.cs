@@ -4,15 +4,15 @@ namespace InfiniteValidation.Internal;
 
 internal class Ruleset<T> : IRuleset<T>
 {
-    private Func<ValidationContext<T>, bool> _condition;
+    private readonly string _key;
 
     private readonly IEnumerable<IValidatorRule<T>> _rules;
 
     private readonly CascadeMode _cascadeMode;
 
-    public Ruleset(Func<ValidationContext<T>, bool> condition, IEnumerable<IValidatorRule<T>> rules, CascadeMode cascadeMode)
+    public Ruleset(string key, IEnumerable<IValidatorRule<T>> rules, CascadeMode cascadeMode)
     {
-        _condition = condition;
+        _key = key;
         _rules = rules;
         _cascadeMode = cascadeMode;
     }
@@ -30,7 +30,7 @@ internal class Ruleset<T> : IRuleset<T>
         return failures;
     }
     
-    public Func<ValidationContext<T>, bool> GetCondition() => _condition;
+    public string GetKey() => _key;
 
     public IEnumerable<IValidatorRule<T>> GetRules() => _rules;
 }
