@@ -1,5 +1,4 @@
-﻿using InfiniteValidation.Decorators;
-using InfiniteValidation.Specifications;
+﻿using InfiniteValidation.Specifications;
 
 namespace InfiniteValidation.Extensions;
 

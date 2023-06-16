@@ -7,7 +7,7 @@ public abstract class Decorator<T, TProperty> : IDecorator<T, TProperty>
 {
     public ISpecification<T, TProperty> Specification { get; }
 
-    public MessageBuilder MessageBuilder { get; } 
+    public MessageBuilder MessageBuilder { get; }
 
     public Decorator(ISpecification<T, TProperty> specification)
     {
@@ -16,7 +16,7 @@ public abstract class Decorator<T, TProperty> : IDecorator<T, TProperty>
         MessageBuilder = specification.MessageBuilder;
     }
 
-    public virtual bool IsSatisfiedBy(ValidationContext<T> context, TProperty value) 
+    public virtual bool IsSatisfiedBy(ValidationContext<T> context, TProperty value)
         => Specification.IsSatisfiedBy(context, value);
 
     public virtual string GetName() => Specification.GetName();

@@ -15,7 +15,7 @@ internal class CollectionRule<T, TElement> : IValidatorRule<T>, IPropertyCollect
     
     public List<IValidatorRule<TElement>> Rules { get; } = new();
     
-    public List<ISpecification<T, TElement>> Specifications { get; set; } = new();
+    public List<ISpecification<T, TElement>> Specifications { get; } = new();
     
     public CollectionRule(Expression<Func<T, IEnumerable<TElement>>> expression, CascadeMode cascadeMode, string propertyName)
     { 

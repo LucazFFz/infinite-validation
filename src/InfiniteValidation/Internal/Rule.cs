@@ -11,7 +11,7 @@ internal class Rule<T, TProperty> : IValidatorRule<T>, IPropertyRule<T, TPropert
     
     public CascadeMode CascadeMode { get; set; }
 
-    public List<ISpecification<T, TProperty>> Specifications { get; set; } = new();
+    public List<ISpecification<T, TProperty>> Specifications { get; } = new();
 
     public List<IValidatorRule<TProperty>> Rules { get; } = new();
     

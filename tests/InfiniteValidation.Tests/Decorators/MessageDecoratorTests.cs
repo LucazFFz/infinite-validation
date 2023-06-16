@@ -1,3 +1,4 @@
+using InfiniteValidation.Specifications;
 using Xunit;
 
 namespace InfiniteValidation.UnitTests.Decorators;
