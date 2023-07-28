@@ -27,7 +27,7 @@ public interface ICollectionRuleBuilderInitial<T, TElement> : IRuleBuilder<T, TE
     
     public ICollectionRuleBuilderInitial<T, TElement> Cascade(CascadeMode mode);
     
-    public ICollectionRuleBuilderInitial<T, TElement> Include(IValidator<TElement> validator);
+    public ICollectionRuleBuilderInitial<T, TElement> Include(IValidator<TElement> childValidator);
     
     public ICollectionRuleBuilderInitial<T, TElement> Include(Action<IInlineValidator<TElement>> action);
 

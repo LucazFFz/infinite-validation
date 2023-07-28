@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
-using System.Security.Cryptography;
+﻿using System.Linq.Expressions;
 using InfiniteValidation.Exceptions;
 using InfiniteValidation.Internal;
 using ValidationResult = InfiniteValidation.Results.ValidationResult;
@@ -17,6 +15,9 @@ public abstract class Validator<T> : IValidator<T>
 
     public void Ruleset(string key, Action<IInlineValidator<T>> action)
     {
+        key.Guard(nameof(key));
+        action.Guard(nameof(action));
+        
         var validator = new InlineValidator<T>();
         action.Invoke(validator);
 
@@ -34,6 +35,8 @@ public abstract class Validator<T> : IValidator<T>
     
     public IRuleBuilderInitial<T, TProperty> RuleFor<TProperty>(Expression<Func<T, TProperty>> expression)
     {
+        expression.Guard(nameof(expression));
+        
         var rule = new Rule<T, TProperty>(
             expression, 
             Configuration.RuleLevelDefaultCascadeMode, 
@@ -50,6 +53,8 @@ public abstract class Validator<T> : IValidator<T>
     public ICollectionRuleBuilderInitial<T, TElement> RuleForEach<TElement>(
         Expression<Func<T, IEnumerable<TElement>>> expression)
     {
+        expression.Guard(nameof(expression));
+        
         var rule = new CollectionRule<T, TElement>(
             expression, 
             Configuration.RuleLevelDefaultCascadeMode, 
@@ -66,13 +71,22 @@ public abstract class Validator<T> : IValidator<T>
     public List<IRuleset<T>> GetRulesets() => _rulesets;
 
     public ValidationResult Validate(T instance, ValidationSettings settings)
-        => Validate(new ValidationContext<T>(instance, settings));
+    {
+        instance.Guard(nameof(instance));
+        settings.Guard(nameof(settings));
+        return Validate(new ValidationContext<T>(instance, settings));
+    }
 
-    public ValidationResult Validate(T instance) 
-        => Validate(new ValidationContext<T>(instance, new ValidationSettings()));
+    public ValidationResult Validate(T instance)
+    {
+        instance.Guard(nameof(instance));
+        return Validate(new ValidationContext<T>(instance, new ValidationSettings()));
+    }
 
     public ValidationResult Validate(T instance, Action<ValidationSettings> settings)
     {
+        instance.Guard(nameof(instance));
+        settings.Guard(nameof(settings));
         var validationSettings = new ValidationSettings();
         settings.Invoke(validationSettings);
         return Validate(new ValidationContext<T>(instance, validationSettings));

@@ -27,10 +27,10 @@ internal class CollectionRuleBuilder<T, TElement> : ICollectionRuleBuilderInitia
         return this;
     }
 
-    public ICollectionRuleBuilderInitial<T, TElement> Include(IValidator<TElement> validator)
+    public ICollectionRuleBuilderInitial<T, TElement> Include(IValidator<TElement> childValidator)
     {
-        validator.Guard(nameof(validator));
-        var rules = validator.GetRulesets().SelectMany(ruleset => ruleset.GetRules()).ToList();
+        childValidator.Guard(nameof(childValidator));
+        var rules = childValidator.GetRulesets().SelectMany(ruleset => ruleset.GetRules()).ToList();
         _collectionRule.Rules.AddRange(rules);
         return this;
     }
