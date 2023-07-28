@@ -10,6 +10,7 @@ internal static class ValidationFailureFactory
         
         return new ValidationFailure(
             specification.GetName(),
+            propertyName,
             specification.MessageBuilder.Build(specification.GetMessageFormat()),
             property, specification.GetSeverity());
     }

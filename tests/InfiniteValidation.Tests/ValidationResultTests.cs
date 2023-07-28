@@ -17,7 +17,7 @@ public class ValidationResultTests
     {
         var result = new ValidationResult(new ValidationSettings())
         {
-            Failures = {new ValidationFailure(null, null, null), new ValidationFailure(null, null, null)}
+            Failures = {new ValidationFailure(null, null, null, null), new ValidationFailure(null, null, null, null)}
         };
         
         Assert.False(result.IsValid);
@@ -28,7 +28,7 @@ public class ValidationResultTests
     {
         var result = new ValidationResult(new ValidationSettings())
         {
-            Failures = {new ValidationFailure(null, null, null), new ValidationFailure(null, null, null)}
+            Failures = {new ValidationFailure(null, null, null, null), new ValidationFailure(null, null, null, null)}
         };
         
         Assert.Equal(2, result.Failures.Count);
@@ -41,8 +41,8 @@ public class ValidationResultTests
         {
             Failures = 
             {
-                new ValidationFailure(null, null, null, Severity.Info) , 
-                new ValidationFailure(null, null, null, Severity.Warning),
+                new ValidationFailure(null, null, null, null, Severity.Info) , 
+                new ValidationFailure(null, null, null, null, Severity.Warning),
             }
         };
         
@@ -56,9 +56,9 @@ public class ValidationResultTests
         {
             Failures = 
             {
-                new ValidationFailure(null, null, null, Severity.Info) , 
-                new ValidationFailure(null, null, null, Severity.Warning),
-                new ValidationFailure(null, null, null)
+                new ValidationFailure(null, null, null, null, Severity.Info) , 
+                new ValidationFailure(null, null, null, null, Severity.Warning),
+                new ValidationFailure(null, null, null, null)
             }
         };
         

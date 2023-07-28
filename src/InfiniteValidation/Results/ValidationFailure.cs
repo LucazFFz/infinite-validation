@@ -1,8 +1,10 @@
 ﻿namespace InfiniteValidation.Results;
 
-public class ValidationFailure
+public sealed class ValidationFailure
 {
     public string SpecificationName { get; } 
+    
+    public string PropertyName { get; }
     
     public string FailureMessage { get; } 
 
@@ -12,11 +14,13 @@ public class ValidationFailure
 
     public ValidationFailure(
         string specificationName, 
+        string propertyName,
         string failureMessage, 
         object? attemptedValue, 
         Severity severity = Severity.Error)
     {
         SpecificationName = specificationName;
+        PropertyName = propertyName;
         FailureMessage = failureMessage;
         AttemptedValue = attemptedValue;
         Severity = severity;
