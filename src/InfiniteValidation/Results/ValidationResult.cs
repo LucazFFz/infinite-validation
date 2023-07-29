@@ -56,7 +56,7 @@ public sealed class ValidationResult
     /// Converts the ValidationResult's failure collection into a dictionary representation. 
     /// </summary>
     /// <returns>
-    /// A dictionary keyed by property nme where each value is an
+    /// A dictionary keyed by property name where each value is an
     /// array of failure messages associated with that property.
     /// </returns>
     public Dictionary<string, string[]> ToDictionary()

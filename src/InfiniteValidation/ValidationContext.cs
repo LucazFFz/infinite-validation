@@ -1,6 +1,6 @@
 ﻿namespace InfiniteValidation;
 
-public class ValidationContext<T>
+public sealed class ValidationContext<T>
 {
     public T InstanceToValidate { get; }
 

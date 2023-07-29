@@ -1,6 +1,6 @@
 namespace InfiniteValidation;
 
-public class ValidatorConfiguration
+public sealed class ValidatorConfiguration
 {
     public CascadeMode RuleLevelDefaultCascadeMode { get; set; } = CascadeMode.Continue;
     

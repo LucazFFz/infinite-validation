@@ -2,7 +2,7 @@
 
 namespace InfiniteValidation.Exceptions;
 
-public class ValidationException : Exception
+public sealed class ValidationException : Exception
 {
     public IEnumerable<ValidationFailure> Errors { get; private set; } = Enumerable.Empty<ValidationFailure>();
 

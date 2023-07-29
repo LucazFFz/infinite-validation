@@ -1,6 +1,6 @@
 namespace InfiniteValidation.Specifications;
 
-public class DefaultSpecification<T, TProperty> : Specification<T, TProperty>
+public sealed class DefaultSpecification<T, TProperty> : Specification<T, TProperty>
 {
     public override bool IsSatisfiedBy(ValidationContext<T> context, TProperty value) => true;
 

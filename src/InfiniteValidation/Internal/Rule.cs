@@ -3,7 +3,7 @@ using InfiniteValidation.Results;
 
 namespace InfiniteValidation.Internal;
 
-internal class Rule<T, TProperty> : IValidatorRule<T>, IPropertyRule<T, TProperty>
+internal sealed class Rule<T, TProperty> : IValidatorRule<T>, IPropertyRule<T, TProperty>
 {
     private readonly Expression<Func<T, TProperty>> _expression;
     

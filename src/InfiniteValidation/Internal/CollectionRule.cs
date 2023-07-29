@@ -3,7 +3,7 @@ using InfiniteValidation.Results;
 
 namespace InfiniteValidation.Internal;
 
-internal class CollectionRule<T, TElement> : IValidatorRule<T>, IPropertyCollectionRule<T, TElement>
+internal sealed class CollectionRule<T, TElement> : IValidatorRule<T>, IPropertyCollectionRule<T, TElement>
 {
     private readonly Expression<Func<T, IEnumerable<TElement>>> _expression;
     

@@ -1,6 +1,6 @@
 namespace InfiniteValidation.Decorators;
 
-public class SpecificationNameDecorator<T, TProperty> : Decorator<T, TProperty>
+public sealed class SpecificationNameDecorator<T, TProperty> : Decorator<T, TProperty>
 {
     private readonly string _specificationName;
 

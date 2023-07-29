@@ -3,7 +3,7 @@ using InfiniteValidation.Internal;
 
 namespace InfiniteValidation.Specifications;
 
-public class RegexSpecification<T> : Specification<T, string>
+public sealed class RegexSpecification<T> : Specification<T, string>
 {
     private readonly Regex _regex;
 

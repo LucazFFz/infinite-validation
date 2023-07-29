@@ -1,6 +1,6 @@
 ﻿namespace InfiniteValidation.Specifications;
 
-public class NullSpecification<T, TProperty> : Specification<T, TProperty>
+public sealed class NullSpecification<T, TProperty> : Specification<T, TProperty>
 { 
     public override bool IsSatisfiedBy(ValidationContext<T> context, TProperty value) => value is null;
     

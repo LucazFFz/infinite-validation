@@ -2,7 +2,7 @@
 
 namespace InfiniteValidation.Decorators;
 
-public class WhenDecorator<T, TProperty> : Decorator<T, TProperty>
+public sealed class WhenDecorator<T, TProperty> : Decorator<T, TProperty>
 {
     private readonly Func<T, bool> _condition;
 

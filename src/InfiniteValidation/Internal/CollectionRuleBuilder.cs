@@ -1,6 +1,6 @@
 namespace InfiniteValidation.Internal;
 
-internal class CollectionRuleBuilder<T, TElement> : ICollectionRuleBuilderInitial<T, TElement>, IRuleBuilderDecorator<T, TElement>
+internal sealed class CollectionRuleBuilder<T, TElement> : ICollectionRuleBuilderInitial<T, TElement>, IRuleBuilderDecorator<T, TElement>
 {
     private readonly IPropertyCollectionRule<T, TElement> _collectionRule;
 

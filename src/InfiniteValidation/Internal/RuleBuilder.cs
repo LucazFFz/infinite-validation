@@ -1,6 +1,6 @@
 ﻿namespace InfiniteValidation.Internal;
 
-internal class RuleBuilder<T, TProperty> : IRuleBuilderInitial<T, TProperty>, IRuleBuilderDecorator<T, TProperty>
+internal sealed class RuleBuilder<T, TProperty> : IRuleBuilderInitial<T, TProperty>, IRuleBuilderDecorator<T, TProperty>
 {
     private readonly IPropertyRule<T, TProperty> _rule;
 

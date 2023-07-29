@@ -2,7 +2,7 @@ using InfiniteValidation.Results;
 
 namespace InfiniteValidation.Internal;
 
-internal class Ruleset<T> : IRuleset<T>
+internal sealed class Ruleset<T> : IRuleset<T>
 {
     private readonly string _key;
 

@@ -1,6 +1,6 @@
 ﻿namespace InfiniteValidation.Specifications;
 
-public class EqualSpecification<T, TProperty> : Specification<T, TProperty>
+public sealed class EqualSpecification<T, TProperty> : Specification<T, TProperty>
 {
     private readonly TProperty _comparisonValue;
 

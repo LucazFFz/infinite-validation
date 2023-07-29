@@ -3,7 +3,7 @@ using InfiniteValidation.Internal;
 
 namespace InfiniteValidation;
 
-public partial class MessageBuilder
+public sealed partial class MessageBuilder
 {
     public const string PropertyName = "PropertyName";
 
@@ -29,7 +29,7 @@ public partial class MessageBuilder
         return this;
     }
 
-    public virtual string Build(string template)
+    public string Build(string template)
     {
         template.Guard(nameof(template));
         return KeyRegex().Replace(template, MatchEvaluator!);
